@@ -10,13 +10,15 @@
 #include <string>
 
 #include "../src/huffman_encode.hpp"
+#include "../src/io_file_seq.hpp"
 
 using namespace std;
 
 int main()
 {
-    string text = "Hello World!";
+    string text = readFromFileSeq("test/inputs/1Mb.txt");
     string encodedText = huffmanEncode(text);
-    cout << "Encoded text: " << encodedText << endl;
+    writeToFileSeq("test/outputs/1Mb_encoded.txt", encodedText);
+
     return 0;
 }

@@ -16,12 +16,12 @@
 using namespace std;
 
 /**
- * @brief Encode a string using Huffman coding.
+ * @brief Encode a string using Huffman coding, returning a binary string.
  *
- * @details Encode a string using Huffman coding.
+ * @details Encode a string using Huffman coding, returning a binary string.
  *
  * @param string String to be encoded.
- * @return string Encoded string.
+ * @return string Binary string representing the encoded text.
  */
 string huffmanEncode(string text);
 

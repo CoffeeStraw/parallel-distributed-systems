@@ -19,8 +19,7 @@ struct Node
 {
     char character;
     int frequency;
-    struct Node *left;
-    struct Node *right;
+    struct Node *left, *right;
 
     Node(char character, int frequency) : character(character), frequency(frequency), left(nullptr), right(nullptr){};
 };
