@@ -44,6 +44,14 @@
         "numbers": "cpp",
         "stdexcept": "cpp",
         "streambuf": "cpp",
-        "typeinfo": "cpp"
+        "typeinfo": "cpp",
+        "chrono": "cpp",
+        "condition_variable": "cpp",
+        "ctime": "cpp",
+        "ratio": "cpp",
+        "mutex": "cpp",
+        "semaphore": "cpp",
+        "stop_token": "cpp",
+        "thread": "cpp"
     }
 }

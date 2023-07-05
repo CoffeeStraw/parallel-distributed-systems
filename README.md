@@ -10,7 +10,15 @@ An implementation of Huffman Coding in C++ using threads and FastFlow.
 6. Encode the obtained binary string in ASCII;
 7. Write the encoded file;
 
+## TODO
+- per charsfrequency, anziché mutex usare un array di maps e poi fare la join, discutere nel report;
+- Vector instead of map;
+- Per eseguire fastflow: `g++ -O3 -I /usr/local/include -std=c++17 filename.cpp -o …`
+- CALCOLA OVERHEAD PER REPORT: lancia un thread a vuoto, fai una media di quanto tempo ci mette a partire;
+- Fai delete del tree (anche se lo spazio occupato é basso);
+
 ## Ideas
+- Could it make sense to use thread-pools?;
 - Everything could be put inside a pipeline;
 - Word-based vs char-based;
 - If we encode using words, we could use a trie to store the words and their frequencies?;
