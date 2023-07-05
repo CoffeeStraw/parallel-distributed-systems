@@ -16,6 +16,9 @@ An implementation of Huffman Coding in C++ using threads and FastFlow.
 - Per eseguire fastflow: `g++ -O3 -I /usr/local/include -std=c++17 filename.cpp -o …`
 - CALCOLA OVERHEAD PER REPORT: lancia un thread a vuoto, fai una media di quanto tempo ci mette a partire;
 - Fai delete del tree (anche se lo spazio occupato é basso);
+- Secondo me fromStringToBinarySeq e fromBinaryToASCII possono essere composte in un'unica funzione;
+- StringBuilder potrebbe migliorare performance?
+- Si potrebbe cominciare a comporre mano a mano che i thread finiscono?
 
 ## Ideas
 - Could it make sense to use thread-pools?;
