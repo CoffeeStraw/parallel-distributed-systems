@@ -1,1 +1,3 @@
 main
+tests/inputs/*.txt
+tests/outputs/*.txt
