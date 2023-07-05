@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
     unordered_map<char, int> *charsFrequency;
     {
         utimer t("Chars frequency (multi-threaded)");
-        charsFrequency = chars_frequency::computeSeq(text, 0, text.length());
+        charsFrequency = chars_frequency::computeMultiThreaded(text, nWorkers);
     }
 
     // STEP 3-4: Build the Huffman tree and the Huffman map
@@ -53,11 +53,10 @@ int main(int argc, char *argv[])
     }
 
     // STEP 6: Convert the binary string to an ASCII string
-    /*
     string asciiString;
     {
         utimer t("Convert to ASCII (seq)");
-        asciiString = huffman_encode::fromBinaryToASCIISeq(binaryString);
+        asciiString = huffman_encode::fromBinaryToASCIIMultiThreaded(binaryString, nWorkers);
     }
 
     // STEP 7: Write the encoded text to the output file
@@ -65,7 +64,6 @@ int main(int argc, char *argv[])
         utimer t("Write file (seq)");
         io_file::writeSeq("tests/outputs/" + filename, asciiString);
     }
-    */
 
     return 0;
 }

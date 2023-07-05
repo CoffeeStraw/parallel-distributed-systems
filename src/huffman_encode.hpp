@@ -39,7 +39,16 @@ namespace huffman_encode
      * @param binaryString The binary string to convert.
      * @return An ASCII string.
     */
-    string fromBinaryToASCIISeq(string binaryString);
+    string fromBinaryToASCIISeq(string &binaryString);
+
+    /**
+     * @brief Converts a binary string to an ASCII string using multiple threads.
+     * 
+     * @param binaryString The binary string to convert.
+     * @param nWorkers The number of threads to use.
+     * @return An ASCII string.
+    */
+    string fromBinaryToASCIIMultiThreaded(string &binaryString, int nWorkers);
 }
 
 #endif

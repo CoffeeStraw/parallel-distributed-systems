@@ -40,5 +40,17 @@ int main(int argc, char *argv[])
         return 1;
     }
 
+    // Verify that the two functions compute the same result
+    string asciiString1 = huffman_encode::fromBinaryToASCIISeq(binaryString1);
+    string asciiString2 = huffman_encode::fromBinaryToASCIIMultiThreaded(binaryString1, nWorkers);
+
+    if (asciiString1 != asciiString2)
+    {
+        cout << "ERROR: the two functions compute different results" << endl;
+        cout << "asciiString1: " << asciiString1 << endl;
+        cout << "asciiString2: " << asciiString2 << endl;
+        return 1;
+    }
+
     return 0;
 }
