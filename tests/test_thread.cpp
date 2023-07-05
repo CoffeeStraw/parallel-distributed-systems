@@ -1,5 +1,5 @@
 /**
- * Test the sequential version of the Huffman encoding algorithm.
+ * Test the multi-threaded version of the Huffman encoding algorithm.
 */
 
 #include <iostream>
@@ -11,19 +11,19 @@
 #include "../src/huffman_tree.hpp"
 #include "../src/huffman_encode.hpp"
 #include "../src/utimer.cpp"
-// #include "../src/utils.hpp"
 
 using namespace std;
 
 int main(int argc, char *argv[])
 {
     // Read command line arguments
-    if (argc != 2)
+    if (argc != 3)
     {
-        cout << "Usage: " << argv[0] << " <filename>" << endl;
+        cout << "Usage: " << argv[0] << " <filename> <nWorkers>" << endl;
         return 1;
     }
     string filename = argv[1];
+    int nWorkers = atoi(argv[2]);
 
     // STEP 1: Read the input file
     string text;
@@ -35,8 +35,8 @@ int main(int argc, char *argv[])
     // STEP 2: Compute the frequency of each character
     unordered_map<char, int> *charsFrequency;
     {
-        utimer t("Chars frequency (seq)");
-        charsFrequency = chars_frequency::computeSeq(text, 0, text.length());
+        utimer t("Chars frequency (multi-threaded)");
+        charsFrequency = chars_frequency::computeMultiThreaded(text, nWorkers);
     }
 
     // STEP 3-4: Build the Huffman tree and the Huffman map
@@ -45,10 +45,10 @@ int main(int argc, char *argv[])
         utimer t("Huffman tree and map (seq)");
         huffman_tree::Node *root = huffman_tree::buildHuffmanTree(text, charsFrequency);
         huffman_tree::buildHuffmanMap(root, huffmanMap);
-        // printHuffmanTree(root);
     }
 
     // STEP 5: Encode the text using the Huffman map
+    /*
     string binaryString;
     {
         utimer t("Encode text (seq)");
@@ -67,6 +67,7 @@ int main(int argc, char *argv[])
         utimer t("Write file (seq)");
         io_file::writeSeq("tests/outputs/" + filename, asciiString);
     }
+    */
 
     return 0;
 }
