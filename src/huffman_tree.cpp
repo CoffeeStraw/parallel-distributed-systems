@@ -5,22 +5,21 @@
 #include "huffman_tree.hpp"
 
 using namespace std;
+using namespace huffman_tree;
 
-#include <iostream>
-
-Node *createNode(const char character, const int frequency)
+Node *huffman_tree::createNode(const char character, const int frequency)
 {
     Node *node = new Node{character, frequency};
     return node;
 }
 
-Node *buildHuffmanTree(const string &text, const unordered_map<char, int> *charsFrequency)
+Node *huffman_tree::buildHuffmanTree(const string &text, const unordered_map<char, int> *charsFrequency)
 {
     if (text.empty())
         return nullptr;
 
     // Create a min-heap with nodes containing characters and their frequencies
-    priority_queue<Node *, vector<Node *>, comp> minHeap;
+    priority_queue<Node *, vector<Node *>, NodeComp> minHeap;
     for (auto &pair : *charsFrequency)
         minHeap.push(createNode(pair.first, pair.second));
 
@@ -45,7 +44,7 @@ Node *buildHuffmanTree(const string &text, const unordered_map<char, int> *chars
     return minHeap.top();
 }
 
-void buildHuffmanMap(const Node *root, const string tmp, unordered_map<char, string> &huffmanMap)
+void buildHuffmanMapRec(const Node *root, const string tmp, unordered_map<char, string> &huffmanMap)
 {
     if (root == nullptr)
         return;
@@ -53,6 +52,11 @@ void buildHuffmanMap(const Node *root, const string tmp, unordered_map<char, str
     if (root->character != '$')
         huffmanMap[root->character] = tmp;
 
-    buildHuffmanMap(root->left, tmp + "0", huffmanMap);
-    buildHuffmanMap(root->right, tmp + "1", huffmanMap);
+    buildHuffmanMapRec(root->left, tmp + "0", huffmanMap);
+    buildHuffmanMapRec(root->right, tmp + "1", huffmanMap);
+}
+
+void huffman_tree::buildHuffmanMap(const Node *root, unordered_map<char, string> &huffmanMap)
+{
+    buildHuffmanMapRec(root, "", huffmanMap);
 }

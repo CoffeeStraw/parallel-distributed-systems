@@ -11,11 +11,12 @@
 #include <iostream>
 #include <string>
 
-#include "huffman_tree.hpp"
+#include "utils.hpp"
 
 using namespace std;
+using namespace huffman_tree;
 
-void printHuffmanTree(Node *root, string pathString)
+void printHuffmanTreeRec(Node *root, string pathString)
 {
     if (root == nullptr)
         return;
@@ -23,11 +24,11 @@ void printHuffmanTree(Node *root, string pathString)
     if (root->character != '$')
         cout << root->character << ": " << pathString << endl;
 
-    printHuffmanTree(root->left, pathString + "0");
-    printHuffmanTree(root->right, pathString + "1");
+    printHuffmanTreeRec(root->left, pathString + "0");
+    printHuffmanTreeRec(root->right, pathString + "1");
 }
 
-void printHuffmanTree(Node *root)
+void utils::printHuffmanTree(Node *root)
 {
-    printHuffmanTree(root, "");
+    printHuffmanTreeRec(root, "");
 }

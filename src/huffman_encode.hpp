@@ -8,15 +8,28 @@
 #define HUFFMAN_ENCODE_HPP
 
 #include <string>
+#include <unordered_map>
 
 using namespace std;
 
-/**
- * @brief Encode a string using Huffman coding.
- *
- * @param string String to be encoded.
- * @return string ASCII string representing the encoded text.
- */
-string huffmanEncode(const string &text);
+namespace huffman_encode
+{
+    /**
+     * @brief Computes the Huffman encoding of a string.
+     * 
+     * @param text The string to encode.
+     * @param huffmanMap The Huffman map (char->code).
+     * @return A binary string representing the encoded text (i.e. a string of 0s and 1s).
+    */
+    string fromStringToBinarySeq(const string &text, unordered_map<char, string> &huffmanMap);
+
+    /**
+     * @brief Converts a binary string to an ASCII string.
+     * 
+     * @param binaryString The binary string to convert.
+     * @return An ASCII string.
+    */
+    string fromBinaryToASCIISeq(string binaryString);
+}
 
 #endif

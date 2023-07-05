@@ -15,53 +15,55 @@
 
 using namespace std;
 
-struct Node
+namespace huffman_tree
 {
-    char character;
-    int frequency;
-    struct Node *left, *right;
-
-    Node(char character, int frequency) : character(character), frequency(frequency), left(nullptr), right(nullptr){};
-};
-
-struct comp
-{
-    bool operator()(Node *l, Node *r)
+    struct Node
     {
-        return l->frequency > r->frequency;
-    }
-};
+        char character;
+        int frequency;
+        struct Node *left, *right;
 
-/**
- * @brief Create a new node with the given character and frequency. Created for convenience.
- *
- * @param character Character to be stored in the node.
- * @param frequency Frequency of the character.
- * @return struct Node* Pointer to the new node.
- */
-struct Node *createNode(const char character, const int frequency);
+        Node(char character, int frequency) : character(character), frequency(frequency), left(nullptr), right(nullptr){};
+    };
 
-/**
- * @brief Create a new Huffman tree from a string and the frequency of each character.
- * Pseudo-code: https://courses.cs.northwestern.edu/311/notes/huffman.pdf
- *
- * @details Create a new Huffman tree from a string and the frequency of each character.
- *
- * @param text String to be encoded.
- * @param charsFrequency Map of characters to their frequency.
- * @return Node* Root of the Huffman tree.
- */
-Node *buildHuffmanTree(const string &text, const unordered_map<char, int> *charsFrequency);
+    struct NodeComp
+    {
+        bool operator()(Node *l, Node *r)
+        {
+            return l->frequency > r->frequency;
+        }
+    };
 
-/**
- * @brief Build a map of characters to Huffman codes.
- *
- * @details Build a map of characters to Huffman codes.
- *
- * @param root Root of the Huffman tree.
- * @param code Huffman code.
- * @param huffmanMap Map of characters to Huffman codes.
- */
-void buildHuffmanMap(const Node *root, const string tmp, unordered_map<char, string> &huffmanMap);
+    /**
+     * @brief Create a new node with the given character and frequency. Created for convenience.
+     *
+     * @param character Character to be stored in the node.
+     * @param frequency Frequency of the character.
+     * @return struct Node* Pointer to the new node.
+     */
+    struct Node *createNode(const char character, const int frequency);
+
+    /**
+     * @brief Create a new Huffman tree from a string and the frequency of each character.
+     * Pseudo-code: https://courses.cs.northwestern.edu/311/notes/huffman.pdf
+     *
+     * @details Create a new Huffman tree from a string and the frequency of each character.
+     *
+     * @param text String to be encoded.
+     * @param charsFrequency Map of characters to their frequency.
+     * @return Node* Root of the Huffman tree.
+     */
+    Node *buildHuffmanTree(const string &text, const unordered_map<char, int> *charsFrequency);
+
+    /**
+     * @brief Build a map of characters to Huffman codes.
+     *
+     * @details Build a map of characters to Huffman codes.
+     *
+     * @param root Root of the Huffman tree.
+     * @param huffmanMap Map of characters to Huffman codes.
+     */
+    void buildHuffmanMap(const Node *root, unordered_map<char, string> &huffmanMap);
+}
 
 #endif
