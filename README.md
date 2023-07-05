@@ -13,10 +13,14 @@ An implementation of Huffman Coding in C++ using threads and FastFlow.
 ## Ideas
 - Everything could be put inside a pipeline;
 - Word-based vs char-based;
-- If we encode using words, we could use a trie to store the words and their frequencies;
+- If we encode using words, we could use a trie to store the words and their frequencies?;
 - Only for words, it could be worth parallelizing the insertion of the words in the min-heap;
 - It would probably be more space-efficient to not encode using strings/chars, but rather using bytes/bits. However, new technical issues pop out: https://stackoverflow.com/questions/31796662/is-there-any-way-to-parallelize-huffman-encoding-implementation-on-hardware;
 - While reading, we could already start counting the frequencies;
+
+## Why not counting while reading?
+In the sequential version, counting char-by-char would be inefficient.
+In the parallel version, we could read in chunk and spawn a thread for counting as soon as we have a chunk. Since we are also reading sequentially.
 
 ## Why not word-based Huffman Coding?
 Huffman coding can be more efficient when applied at the character level or the word level, depending on the specific context and characteristics of the data being compressed. The efficiency of Huffman coding is influenced by factors such as the frequency distribution of characters or words in the data.
@@ -31,5 +35,5 @@ Ultimately, the efficiency of Huffman coding, whether applied at the character o
 
 Sequential version:
 ```
-g++ src/*.cpp test/test_huffman_encode.cpp -o main
+g++ src/*.cpp tests/test_seq.cpp -o main
 ```
