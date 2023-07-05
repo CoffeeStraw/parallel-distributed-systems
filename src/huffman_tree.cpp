@@ -1,14 +1,3 @@
-/**
- * @file huffman_tree.cpp
- *
- * @brief Huffman tree and node struct and functions.
- *
- * Huffman tree and node struct and functions.
- *
- * @see huffman_tree.h
- */
-
-#include <iostream>
 #include <string>
 #include <unordered_map>
 #include <queue>
@@ -17,23 +6,22 @@
 
 using namespace std;
 
-Node *createNode(char character, int frequency)
+#include <iostream>
+
+Node *createNode(const char character, const int frequency)
 {
     Node *node = new Node{character, frequency};
     return node;
 }
 
-Node *buildHuffmanTree(string text)
+Node *buildHuffmanTree(const string &text, const unordered_map<char, int> *charsFrequency)
 {
-    // Count characters' frequencies
-    unordered_map<char, int> charsFrequency;
-    for (auto character : text)
-        charsFrequency[character]++;
+    if (text.empty())
+        return nullptr;
 
-    // Create a min heap with nodes containing characters and their frequencies
-    // NOTE: this one maybe should be put in a different function, as it can be parallelized
+    // Create a min-heap with nodes containing characters and their frequencies
     priority_queue<Node *, vector<Node *>, comp> minHeap;
-    for (auto pair : charsFrequency)
+    for (auto &pair : *charsFrequency)
         minHeap.push(createNode(pair.first, pair.second));
 
     // Create the Huffman tree
@@ -54,28 +42,10 @@ Node *buildHuffmanTree(string text)
         minHeap.push(internalNode);
     }
 
-    // TODO: Try giving in input an empty string and see what happens
     return minHeap.top();
 }
 
-void printHuffmanTree(Node *root, string text)
-{
-    if (root == nullptr)
-        return;
-
-    if (root->character != '$')
-        cout << root->character << ": " << text << endl;
-
-    printHuffmanTree(root->left, text + "0");
-    printHuffmanTree(root->right, text + "1");
-}
-
-void printHuffmanTree(Node *root)
-{
-    printHuffmanTree(root, "");
-}
-
-void buildHuffmanMap(Node *root, string tmp, unordered_map<char, string> &huffmanMap)
+void buildHuffmanMap(const Node *root, const string tmp, unordered_map<char, string> &huffmanMap)
 {
     if (root == nullptr)
         return;

@@ -1,13 +1,13 @@
 /**
- * @file read_from_file_seq.hpp
+ * @file io_file.hpp
  *
- * @brief Read from file sequentially.
+ * @brief Functions to read and write to files.
  *
- * Read from file sequentially.
+ * Functions to read and write to files.
  */
 
-#ifndef IO_FILE_SEQ_HPP
-#define IO_FILE_SEQ_HPP
+#ifndef IO_FILE_HPP
+#define IO_FILE_HPP
 
 #include <string>
 
@@ -34,4 +34,4 @@ string readFromFileSeq(string filePath);
  */
 void writeToFileSeq(string filePath, string text);
 
-#endif // IO_FILE_SEQ_HPP
+#endif

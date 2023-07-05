@@ -7,12 +7,12 @@
  *
  */
 
-#ifndef HUFFMAN_TREE_H
-#define HUFFMAN_TREE_H
+#ifndef HUFFMAN_TREE_HPP
+#define HUFFMAN_TREE_HPP
 
-#include <iostream>
 #include <string>
 #include <unordered_map>
+
 using namespace std;
 
 struct Node
@@ -33,34 +33,25 @@ struct comp
 };
 
 /**
- * @brief Create a new node.
- *
- * @details Create a new node with the given character and frequency. Created for convenience.
+ * @brief Create a new node with the given character and frequency. Created for convenience.
  *
  * @param character Character to be stored in the node.
  * @param frequency Frequency of the character.
  * @return struct Node* Pointer to the new node.
  */
-struct Node *createNode(char character, int frequency);
+struct Node *createNode(const char character, const int frequency);
 
 /**
- * @brief Create a new tree.
+ * @brief Create a new Huffman tree from a string and the frequency of each character.
+ * Pseudo-code: https://courses.cs.northwestern.edu/311/notes/huffman.pdf
  *
- * @details Create a new Huffman tree from a string. Pseudo-code: https://courses.cs.northwestern.edu/311/notes/huffman.pdf
+ * @details Create a new Huffman tree from a string and the frequency of each character.
  *
- * @param text String to create the tree from.
- * @return struct Node* Pointer to the root of the tree.
+ * @param text String to be encoded.
+ * @param charsFrequency Map of characters to their frequency.
+ * @return Node* Root of the Huffman tree.
  */
-struct Node *buildHuffmanTree(string text);
-
-/**
- * @brief Print the Huffman tree.
- *
- * @details Print the Huffman tree in a human-readable format.
- *
- * @param struct Node* Root of the Huffman tree.
- */
-void printHuffmanTree(Node *root);
+Node *buildHuffmanTree(const string &text, const unordered_map<char, int> *charsFrequency);
 
 /**
  * @brief Build a map of characters to Huffman codes.
@@ -71,6 +62,6 @@ void printHuffmanTree(Node *root);
  * @param code Huffman code.
  * @param huffmanMap Map of characters to Huffman codes.
  */
-void buildHuffmanMap(Node *root, string code, unordered_map<char, string> &huffmanMap);
+void buildHuffmanMap(const Node *root, const string tmp, unordered_map<char, string> &huffmanMap);
 
 #endif

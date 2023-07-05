@@ -1,22 +1,17 @@
-/**
- * @file huffman_encode.cpp
- *
- * @brief Huffman encoding functions.
- *
- * Huffman encoding functions.
- *
- * @see huffman_encode.h
- */
-
 #include <iostream>
 
 #include "huffman_encode.hpp"
+#include "huffman_tree.hpp"
+#include "chars_frequency.hpp"
+// #include "utils.hpp"
 
 using namespace std;
 
-string huffmanEncode(string text)
+string huffmanEncode(const string &text)
 {
-    Node *root = buildHuffmanTree(text);
+    unordered_map<char, int>* charsFrequency = computeCharsFrequencySeq(text);
+
+    Node *root = buildHuffmanTree(text, charsFrequency);
     // printHuffmanTree(root);
 
     unordered_map<char, string> huffmanMap;

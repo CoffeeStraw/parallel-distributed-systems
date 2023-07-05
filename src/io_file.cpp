@@ -1,17 +1,9 @@
-/**
- * @file read_from_file.cpp
- *
- * @brief Read from file sequentially.
- *
- * Read from file sequentially.
- */
-
 #include <iostream>
 #include <fstream>
 #include <sstream>
 #include <bitset>
 
-#include "io_file_seq.hpp"
+#include "io_file.hpp"
 
 using namespace std;
 

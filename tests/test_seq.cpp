@@ -10,15 +10,17 @@
 #include <string>
 
 #include "../src/huffman_encode.hpp"
-#include "../src/io_file_seq.hpp"
+#include "../src/io_file.hpp"
 
 using namespace std;
 
-int main()
+int main(int argc, char* argv[])
 {
-    string text = readFromFileSeq("test/inputs/1Mb.txt");
+    string filename = argv[1];
+    
+    string text = readFromFileSeq("tests/inputs/" + filename);
     string encodedText = huffmanEncode(text);
-    writeToFileSeq("test/outputs/1Mb_encoded.txt", encodedText);
+    writeToFileSeq("tests/outputs/" + filename, encodedText);
 
     return 0;
 }

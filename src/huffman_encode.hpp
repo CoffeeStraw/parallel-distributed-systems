@@ -1,28 +1,22 @@
 /**
  * @file huffman_encode.h
  *
- * @brief Huffman encoding functions.
- *
- * Huffman encoding functions.
+ * @brief Methods to compute the Huffman encoding of a string.
  */
 
-#ifndef HUFFMAN_ENCODE_H
-#define HUFFMAN_ENCODE_H
+#ifndef HUFFMAN_ENCODE_HPP
+#define HUFFMAN_ENCODE_HPP
 
-#include <iostream>
-
-#include "huffman_tree.hpp"
+#include <string>
 
 using namespace std;
 
 /**
- * @brief Encode a string using Huffman coding, returning a binary string.
- *
- * @details Encode a string using Huffman coding, returning a binary string.
+ * @brief Encode a string using Huffman coding.
  *
  * @param string String to be encoded.
- * @return string Binary string representing the encoded text.
+ * @return string ASCII string representing the encoded text.
  */
-string huffmanEncode(string text);
+string huffmanEncode(const string &text);
 
 #endif
