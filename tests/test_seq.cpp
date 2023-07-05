@@ -1,6 +1,6 @@
 /**
  * Test the sequential version of the Huffman encoding algorithm.
-*/
+ */
 
 #include <iostream>
 #include <string>

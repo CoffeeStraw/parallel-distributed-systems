@@ -28,7 +28,7 @@ namespace chars_frequency
      * @param text String to compute the frequency of each character.
      * @return unordered_map<char, int> Map of characters to their frequency.
      */
-    unordered_map<char, int> *computeMultiThreaded(const string &text, const int nThreads);
+    unordered_map<char, int> *computeMultiThreaded(const string &text, const int nWorkers);
 }
 
 #endif

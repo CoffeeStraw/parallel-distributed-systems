@@ -1,10 +1,8 @@
 /**
  * Test the multi-threaded version of the Huffman encoding algorithm.
-*/
+ */
 
 #include <iostream>
-#include <string>
-#include <unordered_map>
 
 #include "../src/io_file.hpp"
 #include "../src/chars_frequency.hpp"
@@ -36,7 +34,7 @@ int main(int argc, char *argv[])
     unordered_map<char, int> *charsFrequency;
     {
         utimer t("Chars frequency (multi-threaded)");
-        charsFrequency = chars_frequency::computeMultiThreaded(text, nWorkers);
+        charsFrequency = chars_frequency::computeSeq(text, 0, text.length());
     }
 
     // STEP 3-4: Build the Huffman tree and the Huffman map
@@ -48,14 +46,14 @@ int main(int argc, char *argv[])
     }
 
     // STEP 5: Encode the text using the Huffman map
-    /*
     string binaryString;
     {
         utimer t("Encode text (seq)");
-        binaryString = huffman_encode::fromStringToBinarySeq(text, huffmanMap);
+        binaryString = huffman_encode::fromStringToBinaryMultiThreaded(text, huffmanMap, nWorkers);
     }
 
     // STEP 6: Convert the binary string to an ASCII string
+    /*
     string asciiString;
     {
         utimer t("Convert to ASCII (seq)");

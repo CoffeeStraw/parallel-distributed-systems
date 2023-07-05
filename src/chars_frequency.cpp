@@ -19,23 +19,23 @@ unordered_map<char, int> *chars_frequency::computeSeq(const string &text, const 
     return result;
 }
 
-unordered_map<char, int> *chars_frequency::computeMultiThreaded(const string &text, const int nThreads)
+unordered_map<char, int> *chars_frequency::computeMultiThreaded(const string &text, const int nWorkers)
 {
     unordered_map<char, int> *result = new unordered_map<char, int>();
 
     // Static load balancing: each thread gets a chunk of the text of the same size
     vector<thread> threads;
-    int chunkSize = text.length() / nThreads;
+    int chunkSize = text.length() / nWorkers;
     int start = 0;
     int end = chunkSize;
 
-    for (int i = 0; i < nThreads; i++)
+    for (int i = 0; i < nWorkers; i++)
     {
-        if (i == nThreads - 1)
+        if (i == nWorkers - 1)
             end = text.length();
 
         threads.push_back(thread(
-            [text, start, end, result]()
+            [&text, start, end, result]()
             {
                 unordered_map<char, int> *resultPartial = chars_frequency::computeSeq(text, start, end);
 
