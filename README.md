@@ -11,19 +11,18 @@ An implementation of Huffman Coding in C++ using threads and FastFlow.
 7. Write the encoded file;
 
 ## TODO
-- Fai delete del tree (anche se lo spazio occupato é basso);
-- Secondo me fromStringToBinarySeq e fromBinaryToASCII possono essere composte in un'unica funzione;
-- StringBuilder potrebbe migliorare performance?
 - Per eseguire fastflow: `g++ -O3 -I /usr/local/include -std=c++17 filename.cpp -o …`
 - CALCOLA OVERHEAD PER REPORT: lancia un thread a vuoto, fai una media di quanto tempo ci mette a partire;
 
 ## Ideas
-- Could it make sense to use thread-pools?;
-- Everything could be put inside a pipeline;
-- Word-based vs char-based;
+- Improve string concatenation? https://stackoverflow.com/questions/611263/efficient-string-concatenation-in-c;
 - It would probably be more space-efficient to not encode using strings/chars, but rather using bytes/bits. However, new technical issues pop out: https://stackoverflow.com/questions/31796662/is-there-any-way-to-parallelize-huffman-encoding-implementation-on-hardware;
 
 ## To be discussed in the report
+- Word-based vs char-based;
+- Everything could be put inside a pipeline, but I haven' done it as for the project we were only interested in considering one file at a time;
+- Static load balancing (chosen) vs dynamic;
+- Ho prestato attenzione alla gestione della memoria facendo le delete, che sono comprese nel calcolo degli step;
 - Per charsfrequency, anziché mutex usare un array di maps e poi fare la join, discutere nel report;
 - Vector instead of map (menzionare il caso word-based);
 - Composizione mano a mano che i thread finiscono;
