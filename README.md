@@ -19,6 +19,8 @@ An implementation of Huffman Coding in C++ using threads and FastFlow.
 - Secondo me fromStringToBinarySeq e fromBinaryToASCII possono essere composte in un'unica funzione;
 - StringBuilder potrebbe migliorare performance?
 - Si potrebbe cominciare a comporre mano a mano che i thread finiscono?
+- Non ritornare la stringa e basta, altrimenti credo che venga copiata;
+- Menzionare nel report il return di stringhe ottimizzato: https://en.cppreference.com/w/cpp/language/copy_elision;
 
 ## Ideas
 - Could it make sense to use thread-pools?;
