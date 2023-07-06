@@ -8,7 +8,7 @@
 #define CHARS_FREQUENCY_HPP
 
 #include <string>
-#include <unordered_map>
+#include <vector>
 
 using namespace std;
 
@@ -20,7 +20,7 @@ namespace chars_frequency
      * @param text String to compute the frequency of each character.
      * @return unordered_map<char, int> Map of characters to their frequency.
      */
-    unordered_map<char, int> *computeSeq(const string &text, const int start, const int end);
+    vector<int> *computeSeq(const string &text, const int start, const int end);
 
     /**
      * @brief Compute the frequency of each character in a string using threads.
@@ -28,7 +28,7 @@ namespace chars_frequency
      * @param text String to compute the frequency of each character.
      * @return unordered_map<char, int> Map of characters to their frequency.
      */
-    unordered_map<char, int> *computeMultiThreaded(const string &text, const int nWorkers);
+    vector<int> *computeMultiThreaded(const string &text, const int nWorkers);
 }
 
 #endif

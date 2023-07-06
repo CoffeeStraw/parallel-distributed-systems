@@ -13,15 +13,18 @@ Node *huffman_tree::createNode(const char character, const int frequency)
     return node;
 }
 
-Node *huffman_tree::buildHuffmanTree(const string &text, const unordered_map<char, int> *charsFrequency)
+Node *huffman_tree::buildHuffmanTree(const string &text, const vector<int> *charsFrequency)
 {
     if (text.empty())
         return nullptr;
 
     // Create a min-heap with nodes containing characters and their frequencies
     priority_queue<Node *, vector<Node *>, NodeComp> minHeap;
-    for (auto &pair : *charsFrequency)
-        minHeap.push(createNode(pair.first, pair.second));
+    for (int i = 0; i < charsFrequency->size(); i++)
+        minHeap.push(
+            createNode(
+                static_cast<char>(i),
+                (*charsFrequency)[i]));
 
     // Create the Huffman tree
     while (minHeap.size() != 1)

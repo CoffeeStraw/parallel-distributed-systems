@@ -11,6 +11,7 @@
 #define HUFFMAN_TREE_HPP
 
 #include <string>
+#include <vector>
 #include <unordered_map>
 
 using namespace std;
@@ -53,7 +54,7 @@ namespace huffman_tree
      * @param charsFrequency Map of characters to their frequency.
      * @return Node* Root of the Huffman tree.
      */
-    Node *buildHuffmanTree(const string &text, const unordered_map<char, int> *charsFrequency);
+    Node *buildHuffmanTree(const string &text, const vector<int> *charsFrequency);
 
     /**
      * @brief Build a map of characters to Huffman codes.

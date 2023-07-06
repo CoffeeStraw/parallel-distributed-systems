@@ -9,19 +9,22 @@ using namespace std;
 
 mutex mtx;
 
-unordered_map<char, int> *chars_frequency::computeSeq(const string &text, const int start, const int end)
+vector<int> *chars_frequency::computeSeq(const string &text, const int start, const int end)
 {
-    unordered_map<char, int> *result = new unordered_map<char, int>();
+    vector<int> *result = new vector<int>(256, 0); // Assuming ASCII characters (0-255 range), for Unicode it would be 0-65535
 
     for (int i = start; i < end; i++)
-        (*result)[text[i]]++;
+    {
+        int pos = static_cast<unsigned char>(text[i]);
+        (*result)[pos]++;
+    }
 
     return result;
 }
 
-unordered_map<char, int> *chars_frequency::computeMultiThreaded(const string &text, const int nWorkers)
+vector<int> *chars_frequency::computeMultiThreaded(const string &text, const int nWorkers)
 {
-    unordered_map<char, int> *result = new unordered_map<char, int>();
+    vector<vector<int> *> chunksResult(nWorkers);
 
     // Static load balancing: each thread gets a chunk of the text of the same size
     vector<thread> threads;
@@ -35,24 +38,24 @@ unordered_map<char, int> *chars_frequency::computeMultiThreaded(const string &te
             end = text.length();
 
         threads.push_back(thread(
-            [&text, start, end, result]()
+            [i, &text, start, end, &chunksResult]()
             {
-                unordered_map<char, int> *resultPartial = chars_frequency::computeSeq(text, start, end);
-
-                mtx.lock();
-                for (auto &pair : *resultPartial)
-                    (*result)[pair.first] += pair.second;
-                mtx.unlock();
-
-                delete resultPartial;
+                vector<int> *resultPartial = chars_frequency::computeSeq(text, start, end);
+                chunksResult[i] = resultPartial;
             }));
 
         start = end;
         end += chunkSize;
     }
 
-    for (auto &thread : threads)
-        thread.join();
+    // Merge
+    vector<int> *result = new vector<int>(256, 0);
+    for (int i = 0; i < nWorkers; i++)
+    {
+        threads[i].join();
+        for (int j = 0; j < 256; j++)
+            (*result)[j] += (*chunksResult[i])[j];
+    }
 
     return result;
 }

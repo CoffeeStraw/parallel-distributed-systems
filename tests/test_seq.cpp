@@ -3,8 +3,6 @@
  */
 
 #include <iostream>
-#include <string>
-#include <unordered_map>
 
 #include "../src/io_file.hpp"
 #include "../src/chars_frequency.hpp"
@@ -33,7 +31,7 @@ int main(int argc, char *argv[])
     }
 
     // STEP 2: Compute the frequency of each character
-    unordered_map<char, int> *charsFrequency;
+    vector<int> *charsFrequency;
     {
         utimer t("Chars frequency (seq)");
         charsFrequency = chars_frequency::computeSeq(text, 0, text.length());
