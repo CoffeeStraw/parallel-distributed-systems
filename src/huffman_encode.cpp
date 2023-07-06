@@ -6,15 +6,15 @@
 
 using namespace std;
 
-string huffman_encode::fromStringToBinarySeq(const string &text, unordered_map<char, string> &huffmanMap)
+string huffman_encode::fromStringToBinarySeq(const string &text, vector<string> *huffmanMap)
 {
     string result = "";
     for (auto character : text)
-        result += huffmanMap[character];
+        result += (*huffmanMap)[static_cast<unsigned char>(character)];
     return result;
 }
 
-string huffman_encode::fromStringToBinaryMultiThreaded(const string &text, unordered_map<char, string> &huffmanMap, int nWorkers)
+string huffman_encode::fromStringToBinaryMultiThreaded(const string &text, vector<string> *huffmanMap, int nWorkers)
 {
     vector<string> chunksResult(nWorkers);
 
@@ -34,7 +34,7 @@ string huffman_encode::fromStringToBinaryMultiThreaded(const string &text, unord
             {
                 string resultPartial = "";
                 for (int i = start; i < end; i++)
-                    resultPartial += huffmanMap[text[i]];
+                    resultPartial += (*huffmanMap)[static_cast<unsigned char>(text[i])];
                 chunksResult[i] = resultPartial;
             }));
 

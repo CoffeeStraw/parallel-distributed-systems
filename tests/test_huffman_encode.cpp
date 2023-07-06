@@ -23,10 +23,9 @@ int main(int argc, char *argv[])
     int nWorkers = atoi(argv[2]);
 
     string text = io_file::readSeq("tests/inputs/" + filename);
-    unordered_map<char, int> *charsFrequency = chars_frequency::computeMultiThreaded(text, nWorkers);
-    unordered_map<char, string> huffmanMap;
+    vector<int> *charsFrequency = chars_frequency::computeMultiThreaded(text, nWorkers);
     huffman_tree::Node *root = huffman_tree::buildHuffmanTree(text, charsFrequency);
-    huffman_tree::buildHuffmanMap(root, huffmanMap);
+    vector<string>* huffmanMap = huffman_tree::buildHuffmanMap(root);
 
     // Verify that the two functions compute the same result
     string binaryString1 = huffman_encode::fromStringToBinarySeq(text, huffmanMap);

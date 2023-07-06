@@ -31,18 +31,18 @@ int main(int argc, char *argv[])
     }
 
     // STEP 2: Compute the frequency of each character
-    unordered_map<char, int> *charsFrequency;
+    vector<int> *charsFrequency;
     {
         utimer t("Chars frequency (multi-threaded)");
         charsFrequency = chars_frequency::computeMultiThreaded(text, nWorkers);
     }
 
     // STEP 3-4: Build the Huffman tree and the Huffman map
-    unordered_map<char, string> huffmanMap;
+    vector<string> *huffmanMap;
     {
         utimer t("Huffman tree and map (seq)");
         huffman_tree::Node *root = huffman_tree::buildHuffmanTree(text, charsFrequency);
-        huffman_tree::buildHuffmanMap(root, huffmanMap);
+        huffmanMap = huffman_tree::buildHuffmanMap(root);
     }
 
     // STEP 5: Encode the text using the Huffman map

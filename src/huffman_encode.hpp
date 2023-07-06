@@ -8,7 +8,7 @@
 #define HUFFMAN_ENCODE_HPP
 
 #include <string>
-#include <unordered_map>
+#include <vector>
 
 using namespace std;
 
@@ -21,7 +21,7 @@ namespace huffman_encode
      * @param huffmanMap The Huffman map (char->code).
      * @return A binary string representing the encoded text (i.e. a string of 0s and 1s).
     */
-    string fromStringToBinarySeq(const string &text, unordered_map<char, string> &huffmanMap);
+    string fromStringToBinarySeq(const string &text, vector<string> *huffmanMap);
 
     /**
      * @brief Computes the Huffman encoding of a string using multiple threads.
@@ -31,7 +31,7 @@ namespace huffman_encode
      * @param nWorkers The number of threads to use.
      * @return A binary string representing the encoded text (i.e. a string of 0s and 1s).
     */
-    string fromStringToBinaryMultiThreaded(const string &text, unordered_map<char, string> &huffmanMap, int nWorkers);
+    string fromStringToBinaryMultiThreaded(const string &text, vector<string> *huffmanMap, int nWorkers);
 
     /**
      * @brief Converts a binary string to an ASCII string.

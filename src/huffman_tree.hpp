@@ -12,7 +12,6 @@
 
 #include <string>
 #include <vector>
-#include <unordered_map>
 
 using namespace std;
 
@@ -62,9 +61,9 @@ namespace huffman_tree
      * @details Build a map of characters to Huffman codes.
      *
      * @param root Root of the Huffman tree.
-     * @param huffmanMap Map of characters to Huffman codes.
+     * @return Map of characters to Huffman codes.
      */
-    void buildHuffmanMap(const Node *root, unordered_map<char, string> &huffmanMap);
+    vector<string>* buildHuffmanMap(const Node *root);
 }
 
 #endif

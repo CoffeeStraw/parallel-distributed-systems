@@ -1,5 +1,3 @@
-#include <string>
-#include <unordered_map>
 #include <queue>
 
 #include "huffman_tree.hpp"
@@ -47,19 +45,21 @@ Node *huffman_tree::buildHuffmanTree(const string &text, const vector<int> *char
     return minHeap.top();
 }
 
-void buildHuffmanMapRec(const Node *root, const string tmp, unordered_map<char, string> &huffmanMap)
+void buildHuffmanMapRec(const Node *root, const string tmp, vector<string> *huffmanMap)
 {
     if (root == nullptr)
         return;
 
     if (root->character != '$')
-        huffmanMap[root->character] = tmp;
+        (*huffmanMap)[static_cast<unsigned char>(root->character)] = tmp;
 
     buildHuffmanMapRec(root->left, tmp + "0", huffmanMap);
     buildHuffmanMapRec(root->right, tmp + "1", huffmanMap);
 }
 
-void huffman_tree::buildHuffmanMap(const Node *root, unordered_map<char, string> &huffmanMap)
+vector<string>* huffman_tree::buildHuffmanMap(const Node *root)
 {
+    vector<string> *huffmanMap = new vector<string>(256);
     buildHuffmanMapRec(root, "", huffmanMap);
+    return huffmanMap;
 }
