@@ -47,8 +47,6 @@ namespace huffman_tree
      * @brief Create a new Huffman tree from a string and the frequency of each character.
      * Pseudo-code: https://courses.cs.northwestern.edu/311/notes/huffman.pdf
      *
-     * @details Create a new Huffman tree from a string and the frequency of each character.
-     *
      * @param text String to be encoded.
      * @param charsFrequency Map of characters to their frequency.
      * @return Node* Root of the Huffman tree.
@@ -56,9 +54,14 @@ namespace huffman_tree
     Node *buildHuffmanTree(const string &text, const vector<int> *charsFrequency);
 
     /**
+     * @brief Delete the Huffman tree.
+     * 
+     * @param root Root of the Huffman tree.
+    */
+    void deleteHuffmanTree(Node *root);
+
+    /**
      * @brief Build a map of characters to Huffman codes.
-     *
-     * @details Build a map of characters to Huffman codes.
      *
      * @param root Root of the Huffman tree.
      * @return Map of characters to Huffman codes.

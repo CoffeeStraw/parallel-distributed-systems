@@ -45,6 +45,15 @@ Node *huffman_tree::buildHuffmanTree(const string &text, const vector<int> *char
     return minHeap.top();
 }
 
+void huffman_tree::deleteHuffmanTree(Node* root) {
+    if (root == nullptr)
+        return;
+    
+    deleteHuffmanTree(root->left);
+    deleteHuffmanTree(root->right);
+    delete root;
+}
+
 void buildHuffmanMapRec(const Node *root, const string tmp, vector<string> *huffmanMap)
 {
     if (root == nullptr)

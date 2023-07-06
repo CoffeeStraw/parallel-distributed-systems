@@ -43,19 +43,24 @@ int main(int argc, char *argv[])
         utimer t("Huffman tree and map (seq)");
         huffman_tree::Node *root = huffman_tree::buildHuffmanTree(text, charsFrequency);
         huffmanMap = huffman_tree::buildHuffmanMap(root);
+
+        delete charsFrequency;
+        huffman_tree::deleteHuffmanTree(root);
     }
 
     // STEP 5: Encode the text using the Huffman map
     string binaryString;
     {
-        utimer t("Encode text (seq)");
+        utimer t("Encode text (multi-threaded)");
         binaryString = huffman_encode::fromStringToBinaryMultiThreaded(text, huffmanMap, nWorkers);
+        
+        delete huffmanMap;
     }
 
     // STEP 6: Convert the binary string to an ASCII string
     string asciiString;
     {
-        utimer t("Convert to ASCII (seq)");
+        utimer t("Convert to ASCII (multi-threaded)");
         asciiString = huffman_encode::fromBinaryToASCIIMultiThreaded(binaryString, nWorkers);
     }
 

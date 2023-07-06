@@ -9,7 +9,6 @@
 #include "../src/huffman_tree.hpp"
 #include "../src/huffman_encode.hpp"
 #include "../src/utimer.cpp"
-// #include "../src/utils.hpp"
 
 using namespace std;
 
@@ -43,7 +42,9 @@ int main(int argc, char *argv[])
         utimer t("Huffman tree and map (seq)");
         huffman_tree::Node *root = huffman_tree::buildHuffmanTree(text, charsFrequency);
         huffmanMap = huffman_tree::buildHuffmanMap(root);
-        // printHuffmanTree(root);
+
+        delete charsFrequency;
+        huffman_tree::deleteHuffmanTree(root);
     }
 
     // STEP 5: Encode the text using the Huffman map
@@ -51,6 +52,8 @@ int main(int argc, char *argv[])
     {
         utimer t("Encode text (seq)");
         binaryString = huffman_encode::fromStringToBinarySeq(text, huffmanMap);
+        
+        delete huffmanMap;
     }
 
     // STEP 6: Convert the binary string to an ASCII string
