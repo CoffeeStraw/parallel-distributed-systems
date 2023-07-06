@@ -1,13 +1,10 @@
 #include <vector>
 #include <thread>
-#include <mutex>
 #include <iostream>
 
 #include "chars_frequency.hpp"
 
 using namespace std;
-
-mutex mtx;
 
 vector<int> *chars_frequency::computeSeq(const string &text, const int start, const int end)
 {
