@@ -1,6 +1,6 @@
 #include <queue>
 
-#include "huffman_tree.hpp"
+#include "include/huffman_tree.hpp"
 
 using namespace std;
 using namespace huffman_tree;
@@ -45,10 +45,11 @@ Node *huffman_tree::buildHuffmanTree(const string &text, const vector<int> *char
     return minHeap.top();
 }
 
-void huffman_tree::deleteHuffmanTree(Node* root) {
+void huffman_tree::deleteHuffmanTree(Node *root)
+{
     if (root == nullptr)
         return;
-    
+
     deleteHuffmanTree(root->left);
     deleteHuffmanTree(root->right);
     delete root;
@@ -66,7 +67,7 @@ void buildHuffmanMapRec(const Node *root, const string tmp, vector<string> *huff
     buildHuffmanMapRec(root->right, tmp + "1", huffmanMap);
 }
 
-vector<string>* huffman_tree::buildHuffmanMap(const Node *root)
+vector<string> *huffman_tree::buildHuffmanMap(const Node *root)
 {
     vector<string> *huffmanMap = new vector<string>(256);
     buildHuffmanMapRec(root, "", huffmanMap);

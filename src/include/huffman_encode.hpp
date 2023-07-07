@@ -16,38 +16,38 @@ namespace huffman_encode
 {
     /**
      * @brief Computes the Huffman encoding of a string.
-     * 
+     *
      * @param text The string to encode.
      * @param huffmanMap The Huffman map (char->code).
      * @return A binary string representing the encoded text (i.e. a string of 0s and 1s).
-    */
+     */
     string fromStringToBinarySeq(const string &text, vector<string> *huffmanMap);
 
     /**
      * @brief Computes the Huffman encoding of a string using multiple threads.
-     * 
+     *
      * @param text The string to encode.
      * @param huffmanMap The Huffman map (char->code).
      * @param nWorkers The number of threads to use.
      * @return A binary string representing the encoded text (i.e. a string of 0s and 1s).
-    */
+     */
     string fromStringToBinaryMultiThreaded(const string &text, vector<string> *huffmanMap, int nWorkers);
 
     /**
      * @brief Converts a binary string to an ASCII string.
-     * 
+     *
      * @param binaryString The binary string to convert.
      * @return An ASCII string.
-    */
+     */
     string fromBinaryToASCIISeq(string &binaryString);
 
     /**
      * @brief Converts a binary string to an ASCII string using multiple threads.
-     * 
+     *
      * @param binaryString The binary string to convert.
      * @param nWorkers The number of threads to use.
      * @return An ASCII string.
-    */
+     */
     string fromBinaryToASCIIMultiThreaded(string &binaryString, int nWorkers);
 }
 

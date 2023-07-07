@@ -1,13 +1,13 @@
 /**
  * Test the multi-threaded version of the Huffman encoding algorithm.
-*/
+ */
 
 #include <iostream>
 
-#include "../src/io_file.hpp"
-#include "../src/chars_frequency.hpp"
-#include "../src/huffman_tree.hpp"
-#include "../src/huffman_encode.hpp"
+#include "../src/include/io_file.hpp"
+#include "../src/include/chars_frequency.hpp"
+#include "../src/include/huffman_tree.hpp"
+#include "../src/include/huffman_encode.hpp"
 
 using namespace std;
 
@@ -25,7 +25,7 @@ int main(int argc, char *argv[])
     string text = io_file::readSeq("tests/inputs/" + filename);
     vector<int> *charsFrequency = chars_frequency::computeMultiThreaded(text, nWorkers);
     huffman_tree::Node *root = huffman_tree::buildHuffmanTree(text, charsFrequency);
-    vector<string>* huffmanMap = huffman_tree::buildHuffmanMap(root);
+    vector<string> *huffmanMap = huffman_tree::buildHuffmanMap(root);
 
     // Verify that the two functions compute the same result
     string binaryString1 = huffman_encode::fromStringToBinarySeq(text, huffmanMap);

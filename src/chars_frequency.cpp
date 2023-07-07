@@ -2,7 +2,7 @@
 #include <thread>
 #include <iostream>
 
-#include "chars_frequency.hpp"
+#include "include/chars_frequency.hpp"
 
 using namespace std;
 

@@ -55,9 +55,9 @@ namespace huffman_tree
 
     /**
      * @brief Delete the Huffman tree.
-     * 
+     *
      * @param root Root of the Huffman tree.
-    */
+     */
     void deleteHuffmanTree(Node *root);
 
     /**
@@ -66,7 +66,7 @@ namespace huffman_tree
      * @param root Root of the Huffman tree.
      * @return Map of characters to Huffman codes.
      */
-    vector<string>* buildHuffmanMap(const Node *root);
+    vector<string> *buildHuffmanMap(const Node *root);
 }
 
 #endif

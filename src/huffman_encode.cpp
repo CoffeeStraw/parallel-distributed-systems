@@ -2,7 +2,7 @@
 #include <vector>
 #include <thread>
 
-#include "huffman_encode.hpp"
+#include "include/huffman_encode.hpp"
 
 using namespace std;
 
@@ -97,7 +97,7 @@ string huffman_encode::fromBinaryToASCIIMultiThreaded(string &binaryString, int 
         threads.push_back(thread(
             [i, &binaryString, start, end, &chunksResult]()
             {
-                // Do not use stringstream to avoid using substr
+                // Do not use stringstream to not use 2 substr()
                 string resultPartial = "";
                 for (int i = start; i < end; i += 8)
                 {

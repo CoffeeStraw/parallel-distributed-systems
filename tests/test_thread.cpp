@@ -4,11 +4,11 @@
 
 #include <iostream>
 
-#include "../src/io_file.hpp"
-#include "../src/chars_frequency.hpp"
-#include "../src/huffman_tree.hpp"
-#include "../src/huffman_encode.hpp"
-#include "../src/utimer.cpp"
+#include "../src/include/io_file.hpp"
+#include "../src/include/chars_frequency.hpp"
+#include "../src/include/huffman_tree.hpp"
+#include "../src/include/huffman_encode.hpp"
+#include "../src/include/utimer.hpp"
 
 using namespace std;
 
@@ -53,7 +53,7 @@ int main(int argc, char *argv[])
     {
         utimer t("Encode text (multi-threaded)");
         binaryString = huffman_encode::fromStringToBinaryMultiThreaded(text, huffmanMap, nWorkers);
-        
+
         delete huffmanMap;
     }
 

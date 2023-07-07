@@ -6,9 +6,9 @@
 #include <thread>
 #include <mutex>
 
-#include "../src/io_file.hpp"
-#include "../src/chars_frequency.hpp"
-#include "../src/utimer.cpp"
+#include "../src/include/io_file.hpp"
+#include "../src/include/chars_frequency.hpp"
+#include "../src/include/utimer.hpp"
 
 using namespace std;
 
@@ -34,7 +34,7 @@ vector<int> *computeMultiThreadedLockVector(const string &text, const int nWorke
             [i, &text, start, end, &result]()
             {
                 vector<int> *resultPartial = chars_frequency::computeSeq(text, start, end);
-                
+
                 lock_guard<mutex> lock(mtx);
                 for (int j = 0; j < 256; j++)
                     (*result)[j] += (*resultPartial)[j];

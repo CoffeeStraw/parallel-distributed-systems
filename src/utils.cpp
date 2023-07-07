@@ -11,7 +11,7 @@
 #include <iostream>
 #include <string>
 
-#include "utils.hpp"
+#include "include/utils.hpp"
 
 using namespace std;
 using namespace huffman_tree;

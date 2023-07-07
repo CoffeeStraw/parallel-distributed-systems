@@ -4,8 +4,8 @@
 
 #include <iostream>
 
-#include "../src/io_file.hpp"
-#include "../src/chars_frequency.hpp"
+#include "../src/include/io_file.hpp"
+#include "../src/include/chars_frequency.hpp"
 
 using namespace std;
 
