@@ -28,26 +28,23 @@ int main(int argc, char *argv[])
     vector<string> *huffmanMap = huffman_tree::buildHuffmanMap(root);
 
     // Verify that the two functions compute the same result
-    string binaryString1 = huffman_encode::fromStringToBinarySeq(text, huffmanMap);
+    string binaryString1 = huffman_encode::fromStringToBinarySeq(text, 0, text.length(), huffmanMap);
     string binaryString2 = huffman_encode::fromStringToBinaryMultiThreaded(text, huffmanMap, nWorkers);
 
     if (binaryString1 != binaryString2)
     {
-        cout << "ERROR: the two functions compute different results" << endl;
-        cout << "binaryString1: " << binaryString1 << endl;
-        cout << "binaryString2: " << binaryString2 << endl;
+        cout << "ERROR: the two StringToBinary compute different results" << endl;
         return 1;
     }
 
     // Verify that the two functions compute the same result
-    string asciiString1 = huffman_encode::fromBinaryToASCIISeq(binaryString1);
+    huffman_encode::padString(binaryString1);
+    string asciiString1 = huffman_encode::fromBinaryToASCIISeq(binaryString1, 0, binaryString1.length());
     string asciiString2 = huffman_encode::fromBinaryToASCIIMultiThreaded(binaryString1, nWorkers);
 
     if (asciiString1 != asciiString2)
     {
-        cout << "ERROR: the two functions compute different results" << endl;
-        cout << "asciiString1: " << asciiString1 << endl;
-        cout << "asciiString2: " << asciiString2 << endl;
+        cout << "ERROR: the two BinaryToASCII compute different results" << endl;
         return 1;
     }
 

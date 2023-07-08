@@ -51,7 +51,7 @@ int main(int argc, char *argv[])
     string binaryString;
     {
         utimer t("Encode text (seq)");
-        binaryString = huffman_encode::fromStringToBinarySeq(text, huffmanMap);
+        binaryString = huffman_encode::fromStringToBinarySeq(text, 0, text.length(), huffmanMap);
 
         delete huffmanMap;
     }
@@ -60,7 +60,8 @@ int main(int argc, char *argv[])
     string asciiString;
     {
         utimer t("Convert to ASCII (seq)");
-        asciiString = huffman_encode::fromBinaryToASCIISeq(binaryString);
+        huffman_encode::padString(binaryString);
+        asciiString = huffman_encode::fromBinaryToASCIISeq(binaryString, 0, binaryString.length());
     }
 
     // STEP 7: Write the encoded text to the output file

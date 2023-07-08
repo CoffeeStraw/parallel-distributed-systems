@@ -61,6 +61,7 @@ int main(int argc, char *argv[])
     string asciiString;
     {
         utimer t("Convert to ASCII (multi-threaded)");
+        huffman_encode::padString(binaryString);
         asciiString = huffman_encode::fromBinaryToASCIIMultiThreaded(binaryString, nWorkers);
     }
 
