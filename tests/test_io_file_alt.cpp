@@ -20,6 +20,23 @@ string readSeqOneGo(string filePath)
     return text;
 }
 
+string readSeqLineByLine(string filePath)
+{
+    string text;
+    string line;
+    ifstream file(filePath, ios::in | ios::binary);
+
+    if (file)
+    {
+        while (getline(file, line))
+            text += line + "\n";
+    }
+    else
+        throw runtime_error("Unable to open file" + filePath + "\n");
+
+    return text;
+}
+
 int main(int argc, char *argv[])
 {
     string filename = argv[1];
@@ -36,6 +53,13 @@ int main(int argc, char *argv[])
         // Execute it 100 times to get a more accurate time measurement
         for (int i = 0; i < 100; i++)
             string textNew = readSeqOneGo("tests/inputs/" + filename);
+    }
+
+    {
+        utimer t("readSeqLineByLine");
+        // Execute it 100 times to get a more accurate time measurement
+        for (int i = 0; i < 100; i++)
+            string textNew = readSeqLineByLine("tests/inputs/" + filename);
     }
 
     return 0;
