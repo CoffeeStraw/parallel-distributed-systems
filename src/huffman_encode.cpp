@@ -1,20 +1,21 @@
 #include <bitset>
 #include <vector>
 #include <thread>
+#include <iostream>
 
 #include "include/huffman_encode.hpp"
 
 using namespace std;
 
-string huffman_encode::fromStringToBinarySeq(const string &text, vector<string> *huffmanMap)
+string huffman_encode::fromStringToBinarySeq(const string &text, const int start, const int end, const vector<string> *huffmanMap)
 {
     string result = "";
-    for (auto character : text)
-        result += (*huffmanMap)[static_cast<unsigned char>(character)];
+    for (int i = start; i < end; i++)
+        result += (*huffmanMap)[static_cast<unsigned char>(text[i])];
     return result;
 }
 
-string huffman_encode::fromStringToBinaryMultiThreaded(const string &text, vector<string> *huffmanMap, int nWorkers)
+string huffman_encode::fromStringToBinaryMultiThreaded(const string &text, const vector<string> *huffmanMap, const int nWorkers)
 {
     vector<string> chunksResult(nWorkers);
 
@@ -30,18 +31,16 @@ string huffman_encode::fromStringToBinaryMultiThreaded(const string &text, vecto
             end = text.length();
 
         threads.push_back(thread(
-            [i, &text, start, end, &huffmanMap, &chunksResult]()
+            [&chunksResult, i, &text, start, end, &huffmanMap]()
             {
-                string resultPartial = "";
-                for (int i = start; i < end; i++)
-                    resultPartial += (*huffmanMap)[static_cast<unsigned char>(text[i])];
-                chunksResult[i] = resultPartial;
+                chunksResult[i] = huffman_encode::fromStringToBinarySeq(text, start, end, huffmanMap);
             }));
 
         start = end;
         end += chunkSize;
     }
 
+    // Merge
     string result = "";
     for (int i = 0; i < nWorkers; i++)
     {
@@ -55,19 +54,20 @@ string huffman_encode::fromStringToBinaryMultiThreaded(const string &text, vecto
 /**
  * Pad the binary string with 0s at the end, to make its length a multiple of 8.
  */
-void padString(string &binaryString)
+void huffman_encode::padString(string &binaryString)
 {
     int remainder = binaryString.length() % 8;
     if (remainder != 0)
         binaryString.append(8 - remainder, '0');
 }
 
-string huffman_encode::fromBinaryToASCIISeq(string &binaryString)
+string huffman_encode::fromBinaryToASCIISeq(string &binaryString, const int start, const int end)
 {
-    padString(binaryString);
-
+    // We assume that the binary string has a length that is a multiple of 8
+    // Remember to call padString() before calling this function
+    
     string result = "";
-    for (int i = 0; i < binaryString.length(); i += 8)
+    for (int i = start; i < end; i += 8)
     {
         bitset<8> bits(binaryString.substr(i, 8));
         result += char(bits.to_ulong());
@@ -76,16 +76,17 @@ string huffman_encode::fromBinaryToASCIISeq(string &binaryString)
     return result;
 }
 
-string huffman_encode::fromBinaryToASCIIMultiThreaded(string &binaryString, int nWorkers)
+string huffman_encode::fromBinaryToASCIIMultiThreaded(string &binaryString, const int nWorkers)
 {
-    padString(binaryString);
+    // We assume that the binary string has a length that is a multiple of 8
+    // Remember to call padString() before calling this function
 
     vector<string> chunksResult(nWorkers);
 
     // Static load balancing: each thread gets a chunk of the text of the same size
     vector<thread> threads;
     int chunkSize = binaryString.length() / nWorkers;
-    chunkSize -= chunkSize % 8; // Make sure that the chunk size is a multiple of 8
+    chunkSize -= chunkSize % 8; // Round down to the nearest multiple of 8
     int start = 0;
     int end = chunkSize;
 
@@ -95,16 +96,9 @@ string huffman_encode::fromBinaryToASCIIMultiThreaded(string &binaryString, int 
             end = binaryString.length();
 
         threads.push_back(thread(
-            [i, &binaryString, start, end, &chunksResult]()
+            [&chunksResult, i, &binaryString, start, end]()
             {
-                // Do not use stringstream to not use 2 substr()
-                string resultPartial = "";
-                for (int i = start; i < end; i += 8)
-                {
-                    bitset<8> bits(binaryString.substr(i, 8));
-                    resultPartial += char(bits.to_ulong());
-                }
-                chunksResult[i] = resultPartial;
+                chunksResult[i] = huffman_encode::fromBinaryToASCIISeq(binaryString, start, end);
             }));
 
         start = end;

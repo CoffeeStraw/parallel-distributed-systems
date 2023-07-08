@@ -35,10 +35,9 @@ vector<int> *chars_frequency::computeMultiThreaded(const string &text, const int
             end = text.length();
 
         threads.push_back(thread(
-            [i, &text, start, end, &chunksResult]()
+            [&chunksResult, i, &text, start, end]()
             {
-                vector<int> *resultPartial = chars_frequency::computeSeq(text, start, end);
-                chunksResult[i] = resultPartial;
+                chunksResult[i] = chars_frequency::computeSeq(text, start, end);
             }));
 
         start = end;

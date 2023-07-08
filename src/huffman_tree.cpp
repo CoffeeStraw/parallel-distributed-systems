@@ -34,7 +34,7 @@ Node *huffman_tree::buildHuffmanTree(const string &text, const vector<int> *char
         minHeap.pop();
 
         // Create a new node holding the sum of the frequencies of the two nodes
-        Node *internalNode = createNode('$', left->frequency + right->frequency);
+        Node *internalNode = createNode('\0', left->frequency + right->frequency);
         internalNode->left = left;
         internalNode->right = right;
 
@@ -60,7 +60,7 @@ void buildHuffmanMapRec(const Node *root, const string tmp, vector<string> *huff
     if (root == nullptr)
         return;
 
-    if (root->character != '$')
+    if (root->left == nullptr && root->right == nullptr)
         (*huffmanMap)[static_cast<unsigned char>(root->character)] = tmp;
 
     buildHuffmanMapRec(root->left, tmp + "0", huffmanMap);
