@@ -23,7 +23,7 @@ namespace io_file
      * @param filePath The path of the file to read from.
      * @return The content of the file.
      */
-    string readSeq(string filePath);
+    string readSeq(const string &filePath);
 
     /**
      * @brief Write to file sequentially.
@@ -34,7 +34,7 @@ namespace io_file
      * @param text The text to write to the file.
      * @return void
      */
-    void writeSeq(string filePath, string text);
+    void writeSeq(const string &filePath, const string &text);
 }
 
 #endif

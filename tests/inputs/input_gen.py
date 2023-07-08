@@ -8,8 +8,8 @@ def main():
         print("Usage: python3 input_gen.py <file_size>")
         return
 
-    # Generate a random ASCII character (both letters and numbers and symbols)
-    ascii_characters = string.ascii_letters + string.digits + string.punctuation
+    # Generate a random ASCII character (both letters and numbers and symbols and whitespace)
+    ascii_characters = string.ascii_letters + string.digits + string.punctuation + string.whitespace
 
     to_write = ""
     for i in range(int(sys.argv[1]) * 1024 ** 2):
