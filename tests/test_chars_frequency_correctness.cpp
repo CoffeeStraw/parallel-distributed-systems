@@ -22,15 +22,16 @@ int main(int argc, char *argv[])
 
     string text = io_file::readSeq("tests/inputs/" + filename);
 
-    // Verify that the two functions compute the same result
-    vector<int> *charsFrequency1 = chars_frequency::computeSeq(text, 0, text.length());
-    vector<int> *charsFrequency2 = chars_frequency::computeMultiThreaded(text, nWorkers);
+    // Verify that the 3 functions compute the same result
+    vector<int> charsFrequency1 = chars_frequency::computeSeq(text, 0, text.length());
+    vector<int> charsFrequency2 = chars_frequency::computeMultiThreaded(text, nWorkers);
+    vector<int> charsFrequency3 = chars_frequency::computeFastFlow(text, nWorkers);
 
     for (int i = 0; i < 256; i++)
     {
-        if ((*charsFrequency1)[i] != (*charsFrequency2)[i])
+        if (charsFrequency1[i] != charsFrequency2[i] || charsFrequency1[i] != charsFrequency3[i])
         {
-            cout << "Error: the two functions compute different results" << endl;
+            cout << "Error: the three functions compute different results" << endl;
             return 1;
         }
     }

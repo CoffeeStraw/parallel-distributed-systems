@@ -31,20 +31,19 @@ int main(int argc, char *argv[])
     }
 
     // STEP 2: Compute the frequency of each character
-    vector<int> *charsFrequency;
+    vector<int> charsFrequency;
     {
         utimer t("Chars frequency (multi-threaded)");
         charsFrequency = chars_frequency::computeMultiThreaded(text, nWorkers);
     }
 
     // STEP 3-4: Build the Huffman tree and the Huffman map
-    vector<string> *huffmanMap;
+    vector<string> huffmanMap;
     {
         utimer t("Huffman tree and map (seq)");
         huffman_tree::Node *root = huffman_tree::buildHuffmanTree(text, charsFrequency);
         huffmanMap = huffman_tree::buildHuffmanMap(root);
 
-        delete charsFrequency;
         huffman_tree::deleteHuffmanTree(root);
     }
 
@@ -53,8 +52,6 @@ int main(int argc, char *argv[])
     {
         utimer t("Encode text (multi-threaded)");
         binaryString = huffman_encode::fromStringToBinaryMultiThreaded(text, huffmanMap, nWorkers);
-
-        delete huffmanMap;
     }
 
     // STEP 6: Convert the binary string to an ASCII string

@@ -11,18 +11,18 @@ Node *huffman_tree::createNode(const char character, const int frequency)
     return node;
 }
 
-Node *huffman_tree::buildHuffmanTree(const string &text, const vector<int> *charsFrequency)
+Node *huffman_tree::buildHuffmanTree(const string &text, const vector<int> &charsFrequency)
 {
     if (text.empty())
         return nullptr;
 
     // Create a min-heap with nodes containing characters and their frequencies
     priority_queue<Node *, vector<Node *>, NodeComp> minHeap;
-    for (int i = 0; i < charsFrequency->size(); i++)
+    for (int i = 0; i < charsFrequency.size(); i++)
         minHeap.push(
             createNode(
                 static_cast<char>(i),
-                (*charsFrequency)[i]));
+                charsFrequency[i]));
 
     // Create the Huffman tree
     while (minHeap.size() != 1)
@@ -55,21 +55,21 @@ void huffman_tree::deleteHuffmanTree(Node *root)
     delete root;
 }
 
-void buildHuffmanMapRec(const Node *root, const string tmp, vector<string> *huffmanMap)
+void buildHuffmanMapRec(const Node *root, const string tmp, vector<string> &huffmanMap)
 {
     if (root == nullptr)
         return;
 
     if (root->left == nullptr && root->right == nullptr)
-        (*huffmanMap)[static_cast<unsigned char>(root->character)] = tmp;
+        huffmanMap[static_cast<unsigned char>(root->character)] = tmp;
 
     buildHuffmanMapRec(root->left, tmp + "0", huffmanMap);
     buildHuffmanMapRec(root->right, tmp + "1", huffmanMap);
 }
 
-vector<string> *huffman_tree::buildHuffmanMap(const Node *root)
+vector<string> huffman_tree::buildHuffmanMap(const Node *root)
 {
-    vector<string> *huffmanMap = new vector<string>(256);
+    vector<string> huffmanMap = vector<string>(256);
     buildHuffmanMapRec(root, "", huffmanMap);
     return huffmanMap;
 }

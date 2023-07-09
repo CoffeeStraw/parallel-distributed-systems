@@ -51,7 +51,7 @@ namespace huffman_tree
      * @param charsFrequency Map of characters to their frequency.
      * @return Node* Root of the Huffman tree.
      */
-    Node *buildHuffmanTree(const string &text, const vector<int> *charsFrequency);
+    Node *buildHuffmanTree(const string &text, const vector<int> &charsFrequency);
 
     /**
      * @brief Delete the Huffman tree.
@@ -66,7 +66,7 @@ namespace huffman_tree
      * @param root Root of the Huffman tree.
      * @return Map of characters to Huffman codes.
      */
-    vector<string> *buildHuffmanMap(const Node *root);
+    vector<string> buildHuffmanMap(const Node *root);
 }
 
 #endif
