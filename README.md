@@ -10,8 +10,18 @@ An implementation of Huffman Coding in C++ using threads and FastFlow.
 6. ASCII: Encode the obtained binary string in ASCII;
 7. WRITE: Write the encoded file;
 
-## Usage
+## Compile
 Sequential version:
 ```
-g++ src/*.cpp tests/test_seq.cpp -o main
+g++ -O3 -I /usr/local/include -std=c++17 src/*.cpp tests/test_1_sequential.cpp  -o main
+```
+
+Thread version:
+```
+g++ -O3 -I /usr/local/include -std=c++17 src/*.cpp tests/test_2_thread.cpp  -o main
+```
+
+FastFlow version:
+```
+g++ -O3 -I /usr/local/include -std=c++17 src/*.cpp tests/test_3_fastflow.cpp  -o main
 ```
