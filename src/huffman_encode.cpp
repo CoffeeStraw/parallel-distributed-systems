@@ -57,7 +57,7 @@ string huffman_encode::fromStringToBinaryFastFlow(const string &text, const vect
 {
     string result = "";
 
-    ff::ParallelForReduce<string> ffForReduce;
+    ff::ParallelForReduce<string> ffForReduce(nWorkers);
     ffForReduce.parallel_reduce_static(
         result, "",
         0, text.size(), 1, 0,
@@ -148,11 +148,11 @@ string huffman_encode::fromBinaryToASCIIFastFlow(const string &binaryString, con
     vector<string> chunksResult(nWorkers);
 
     // Static load balancing: each thread gets a chunk of the text of the same size
-    ff::ParallelFor pf(nWorkers);
+    ff::ParallelFor ffFor(nWorkers);
     int chunkSize = binaryString.length() / nWorkers;
     chunkSize -= chunkSize % 8; // Round down to the nearest multiple of 8
 
-    pf.parallel_for_static(
+    ffFor.parallel_for_static(
         0, nWorkers, 1, 0,
         [chunkSize, nWorkers, &chunksResult, &binaryString](const long i)
         {

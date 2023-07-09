@@ -64,7 +64,7 @@ vector<int> chars_frequency::computeFastFlow(const string &text, const int nWork
 {
     vector<int> result = vector<int>(256, 0);
 
-    ff::ParallelForReduce<vector<int>> ffForReduce;
+    ff::ParallelForReduce<vector<int>> ffForReduce(nWorkers);
     ffForReduce.parallel_reduce_static(
         result, vector<int>(256, 0),
         0, text.size(), 1, 0,
