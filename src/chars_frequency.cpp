@@ -3,6 +3,7 @@
 #include <iostream>
 #include <ff/ff.hpp>
 #include <ff/parallel_for.hpp>
+#include <time.h>
 
 #include "include/chars_frequency.hpp"
 
@@ -61,28 +62,25 @@ vector<int> chars_frequency::computeMultiThreaded(const string &text, const int 
 
 vector<int> chars_frequency::computeFastFlow(const string &text, const int nWorkers)
 {
-    vector<vector<int>> chunksResult(nWorkers);
-
-    // Static load balancing: each thread gets a chunk of the text of the same size
-    ff::ParallelFor pf(nWorkers);
-    int chunkSize = text.length() / nWorkers;
-
-    pf.parallel_for_static(
-        0, nWorkers, 1, 0,
-        [chunkSize, nWorkers, &chunksResult, &text](const long i)
-        {
-            int start = i * chunkSize;
-            int end = start + chunkSize;
-            if (i == nWorkers - 1)
-                end = text.length();
-            chunksResult[i] = chars_frequency::computeSeq(text, start, end);
-        });
-
-    // Merging
     vector<int> result = vector<int>(256, 0);
-    for (int i = 0; i < nWorkers; i++)
-        for (int j = 0; j < 256; j++)
-            result[j] += chunksResult[i][j];
+
+    ff::ParallelForReduce<vector<int>> ffForReduce;
+    ffForReduce.parallel_reduce_static(
+        result, vector<int>(256, 0),
+        0, text.size(), 1, 0,
+        [&text](const long i, vector<int> &partialResult)
+        {
+            // Counting
+            int pos = static_cast<unsigned char>(text[i]);
+            partialResult[pos]++;
+        },
+        [](vector<int> &result, const vector<int> &partialResult)
+        {
+            // Merging
+            for (int i = 0; i < 256; i++)
+                result[i] += partialResult[i];
+        },
+        nWorkers);
 
     return result;
 }

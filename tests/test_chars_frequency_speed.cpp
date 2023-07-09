@@ -90,27 +90,30 @@ vector<int> computeMultiThreadedLockElement(const string &text, const int nWorke
     return result;
 }
 
-vector<int> computeFastFlowForReduce(const string &text, const int nWorkers)
+vector<int> computeFastFlowNoReduce(const string &text, const int nWorkers)
 {
-    vector<int> result = vector<int>(256, 0);
+    vector<vector<int>> chunksResult(nWorkers);
 
-    ff::ParallelForReduce<vector<int>> ffForReduce;
-    ffForReduce.parallel_reduce_static(
-        result, vector<int>(256, 0),
-        0, text.size(), 1, 0,
-        [&text](const long i, vector<int> &sub_result)
+    // Static load balancing: each thread gets a chunk of the text of the same size
+    ff::ParallelFor pf(nWorkers);
+    int chunkSize = text.length() / nWorkers;
+
+    pf.parallel_for_static(
+        0, nWorkers, 1, 0,
+        [chunkSize, nWorkers, &chunksResult, &text](const long i)
         {
-            // Counting
-            int pos = static_cast<unsigned char>(text[i]);
-            sub_result[pos]++;
-        },
-        [](vector<int> &result, const vector<int> &sub_result)
-        {
-            // Merging
-            for (int i = 0; i < 256; i++)
-                result[i] += sub_result[i];
-        },
-        nWorkers);
+            int start = i * chunkSize;
+            int end = start + chunkSize;
+            if (i == nWorkers - 1)
+                end = text.length();
+            chunksResult[i] = chars_frequency::computeSeq(text, start, end);
+        });
+
+    // Merging
+    vector<int> result = vector<int>(256, 0);
+    for (int i = 0; i < nWorkers; i++)
+        for (int j = 0; j < 256; j++)
+            result[j] += chunksResult[i][j];
 
     return result;
 }
@@ -196,18 +199,18 @@ int main(int argc, char *argv[])
     averageUs /= nIterations;
     cout << "Average FastFlow execution time: " << averageUs << " us" << endl;
     
-    // FastFlow execution with reduce
+    // FastFlow execution with no reduce
     us, averageUs = 0;
     for (int i = 0; i < nIterations; i++)
     {
         {
             utimer t("", &us);
-            charsFrequency = computeFastFlowForReduce(text, nWorkers);
+            charsFrequency = computeFastFlowNoReduce(text, nWorkers);
         }
         averageUs += us;
     }
     averageUs /= nIterations;
-    cout << "Average FastFlow execution time with reduce: " << averageUs << " us" << endl;
+    cout << "Average FastFlow execution time with no reduce: " << averageUs << " us" << endl;
 
     return 0;
 }

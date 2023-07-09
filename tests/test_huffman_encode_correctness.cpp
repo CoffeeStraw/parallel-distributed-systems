@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
     huffman_tree::Node *root = huffman_tree::buildHuffmanTree(text, charsFrequency);
     vector<string> huffmanMap = huffman_tree::buildHuffmanMap(root);
 
-    // Verify that the two functions compute the same result
+    // Verify that the three functions compute the same result
     string binaryString1 = huffman_encode::fromStringToBinarySeq(text, 0, text.length(), huffmanMap);
     string binaryString2 = huffman_encode::fromStringToBinaryMultiThreaded(text, huffmanMap, nWorkers);
     string binaryString3 = huffman_encode::fromStringToBinaryFastFlow(text, huffmanMap, nWorkers);
@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    // Verify that the two functions compute the same result
+    // Verify that the three functions compute the same result
     huffman_encode::padString(binaryString1);
     string asciiString1 = huffman_encode::fromBinaryToASCIISeq(binaryString1, 0, binaryString1.length());
     string asciiString2 = huffman_encode::fromBinaryToASCIIMultiThreaded(binaryString1, nWorkers);

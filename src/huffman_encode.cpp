@@ -55,27 +55,24 @@ string huffman_encode::fromStringToBinaryMultiThreaded(const string &text, const
 
 string huffman_encode::fromStringToBinaryFastFlow(const string &text, const vector<string> &huffmanMap, const int nWorkers)
 {
-    vector<string> chunksResult(nWorkers);
-
-    // Static load balancing: each thread gets a chunk of the text of the same size
-    ff::ParallelFor pf(nWorkers);
-    int chunkSize = text.length() / nWorkers;
-
-    pf.parallel_for_static(
-        0, nWorkers, 1, 0,
-        [chunkSize, nWorkers, &chunksResult, &text, &huffmanMap](const long i)
-        {
-            int start = i * chunkSize;
-            int end = start + chunkSize;
-            if (i == nWorkers - 1)
-                end = text.length();
-            chunksResult[i] = huffman_encode::fromStringToBinarySeq(text, start, end, huffmanMap);
-        });
-
-    // Merge
     string result = "";
-    for (int i = 0; i < nWorkers; i++)
-        result += chunksResult[i];
+
+    ff::ParallelForReduce<string> ffForReduce;
+    ffForReduce.parallel_reduce_static(
+        result, "",
+        0, text.size(), 1, 0,
+        [&huffmanMap, &text](const long i, string &partialResult)
+        {
+            // Encoding
+            int pos = static_cast<unsigned char>(text[i]);
+            partialResult += huffmanMap[pos];
+        },
+        [](string &result, const string &partialResult)
+        {
+            // Merging
+            result += partialResult;
+        },
+        nWorkers);
 
     return result;
 }
@@ -143,6 +140,11 @@ string huffman_encode::fromBinaryToASCIIMultiThreaded(const string &binaryString
 
 string huffman_encode::fromBinaryToASCIIFastFlow(const string &binaryString, const int nWorkers)
 {
+    // NOTE: FastFlow does not allow to control the chunkSize in parallelForReduce,
+    // which is needed since chunks must be a multiple of 8.
+    // Thus, we have to use parallelFor and then merge the results manually
+    // Note that the speed of this approach is pretty much the same as the one using reduce, it has been tested in test_chars_frequency_speed.cpp
+
     vector<string> chunksResult(nWorkers);
 
     // Static load balancing: each thread gets a chunk of the text of the same size
