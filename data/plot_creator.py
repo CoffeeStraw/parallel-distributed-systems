@@ -107,7 +107,7 @@ ax.legend(loc='upper center', bbox_to_anchor=(0.5, 1.14), ncol=3)
 
 # Set plot title and axis labels
 plt.xlabel('Number of workers')
-plt.ylabel('Speedup')
+plt.ylabel('Average speedup')
 
 # Save the plot
 plt.savefig(f'imgs/speedup{no_io}.png')
@@ -138,7 +138,7 @@ ax.legend(loc='upper center', bbox_to_anchor=(0.5, 1.14), ncol=3)
 
 # Set plot title and axis labels
 plt.xlabel('Number of workers')
-plt.ylabel('Scalability')
+plt.ylabel('Average scalability')
 
 # Save the plot
 plt.savefig(f'imgs/scalability{no_io}.png')
