@@ -77,7 +77,7 @@ for i, filePath in enumerate(sequential_data['filePath'].unique()):
 
     # Set plot title and axis labels
     plt.xlabel('Number of workers')
-    plt.ylabel('Average (ms)')
+    plt.ylabel('Average completion time (ms)')
 
     # Save the plot
     plt.savefig(f'imgs/average_{filePath}{no_io}.png')
