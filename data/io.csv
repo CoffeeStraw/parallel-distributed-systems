@@ -1,0 +1,4 @@
+filePath,nWorkers,average
+1MB.txt,1,1645
+10MB.txt,1,20141
+100MB.txt,1,236196
