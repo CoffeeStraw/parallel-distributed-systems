@@ -69,7 +69,7 @@ int main(int argc, char *argv[])
 
     string text = io_file::readSeq("tests/inputs/" + filename);
     vector<int> charsFrequency = chars_frequency::computeSeq(text, 0, text.length());
-    huffman_tree::Node *root = huffman_tree::buildHuffmanTree(text, charsFrequency);
+    huffman_tree::Node *root = huffman_tree::buildHuffmanTree(charsFrequency);
     vector<string> huffmanMap = huffman_tree::buildHuffmanMap(root);
     huffman_tree::deleteHuffmanTree(root);
 

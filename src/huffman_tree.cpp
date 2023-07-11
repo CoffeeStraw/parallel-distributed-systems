@@ -11,11 +11,8 @@ Node *huffman_tree::createNode(const char character, const int frequency)
     return node;
 }
 
-Node *huffman_tree::buildHuffmanTree(const string &text, const vector<int> &charsFrequency)
+Node *huffman_tree::buildHuffmanTree(const vector<int> &charsFrequency)
 {
-    if (text.empty())
-        return nullptr;
-
     // Create a min-heap with nodes containing characters and their frequencies
     priority_queue<Node *, vector<Node *>, NodeComp> minHeap;
     for (int i = 0; i < charsFrequency.size(); i++)
