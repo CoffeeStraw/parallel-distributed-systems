@@ -63,6 +63,7 @@ int main(int argc, char *argv[])
         }
         averageUs /= nIterations;
         cout << "Average time COUNT: " << averageUs << " us" << endl;
+        averageUs = 0;
 
         // STEP 3-4: Build the Huffman tree and the Huffman map
         vector<string> huffmanMap;
@@ -78,6 +79,7 @@ int main(int argc, char *argv[])
         }
         averageUs /= nIterations;
         cout << "Average time TREE+MAP: " << averageUs << " us" << endl;
+        averageUs = 0;
 
         // STEP 5: Encode the text using the Huffman map
         string binaryString;
@@ -91,6 +93,7 @@ int main(int argc, char *argv[])
         }
         averageUs /= nIterations;
         cout << "Average time ENCODE: " << averageUs << " us" << endl;
+        averageUs = 0;
 
         // STEP 6: Convert the binary string to an ASCII string
         string asciiString;
@@ -105,6 +108,7 @@ int main(int argc, char *argv[])
         }
         averageUs /= nIterations;
         cout << "Average time ASCII: " << averageUs << " us" << endl;
+        averageUs = 0;
 
         // STEP 7: Write the encoded text to the output file
         for (size_t ni = 0; ni < nIterations; ni++)
@@ -118,6 +122,7 @@ int main(int argc, char *argv[])
         averageUs /= nIterations;
         outputAverageUs = averageUs;
         cout << "Average time OUTPUT: " << averageUs << " us" << endl;
+        averageUs = 0;
 
         // Write results to csv file
         file << fileName << ",1," << inputAverageUs + outputAverageUs << endl;
