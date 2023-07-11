@@ -118,6 +118,31 @@ vector<int> computeFastFlowNoReduce(const string &text, const int nWorkers)
     return result;
 }
 
+vector<int> computeFastFlowNoStatic(const string &text, const int nWorkers)
+{
+    vector<int> result = vector<int>(256, 0);
+    
+    ff::ParallelForReduce<vector<int>> ffForReduce(nWorkers);
+    ffForReduce.parallel_reduce(
+        result, vector<int>(256, 0),
+        0, text.size(), 1, 0,
+        [&text](const long i, vector<int> &partialResult)
+        {
+            // Counting
+            int pos = static_cast<unsigned char>(text[i]);
+            partialResult[pos]++;
+        },
+        [](vector<int> &result, const vector<int> &partialResult)
+        {
+            // Merging
+            for (int i = 0; i < 256; i++)
+                result[i] += partialResult[i];
+        },
+        nWorkers);
+
+    return result;
+}
+
 int main(int argc, char *argv[])
 {
     // Read command line arguments
@@ -198,7 +223,7 @@ int main(int argc, char *argv[])
     }
     averageUs /= nIterations;
     cout << "Average FastFlow execution time: " << averageUs << " us" << endl;
-    
+
     // FastFlow execution with no reduce
     us, averageUs = 0;
     for (int i = 0; i < nIterations; i++)
@@ -211,6 +236,19 @@ int main(int argc, char *argv[])
     }
     averageUs /= nIterations;
     cout << "Average FastFlow execution time with no reduce: " << averageUs << " us" << endl;
+
+    // FastFlow execution with no static
+    us, averageUs = 0;
+    for (int i = 0; i < nIterations; i++)
+    {
+        {
+            utimer t("", &us);
+            charsFrequency = computeFastFlowNoStatic(text, nWorkers);
+        }
+        averageUs += us;
+    }
+    averageUs /= nIterations;
+    cout << "Average FastFlow execution time with no static: " << averageUs << " us" << endl;
 
     return 0;
 }
