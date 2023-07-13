@@ -11,10 +11,12 @@ def main():
     # Generate a random ASCII character (both letters and numbers and symbols and whitespace)
     ascii_characters = string.ascii_letters + string.digits + string.punctuation + string.whitespace
 
+    # Prepare the string to write
     to_write = ""
     for i in range(int(sys.argv[1]) * 1024 ** 2):
         to_write += random.choice(ascii_characters)
 
+    # Write the string to the file
     with open(f"{sys.argv[1]}MB.txt", 'w') as f:
         f.write(to_write)
 

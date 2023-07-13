@@ -23,6 +23,7 @@ int main(int argc, char *argv[])
     }
     int nIterations = atoi(argv[1]);
 
+    // Csv file
     std::ofstream file("data/sequential.csv");
     file << "filePath,nWorkers,average" << endl;
 

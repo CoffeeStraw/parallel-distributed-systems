@@ -24,6 +24,7 @@ int main(int argc, char *argv[])
     int maxNWorkers = atoi(argv[1]);
     int nIterations = atoi(argv[2]);
 
+    // Csv file
     std::ofstream file("data/fastflow.csv");
     file << "filePath,nWorkers,average" << endl;
 

@@ -20,6 +20,7 @@ int main(int argc, char *argv[])
     string filename = argv[1];
     int nWorkers = atoi(argv[2]);
 
+    // Run required steps to reach the COUNT stage
     string text = io_file::readSeq("tests/inputs/" + filename);
 
     // Verify that the 3 functions compute the same result

@@ -27,17 +27,13 @@ vector<int> computeMultiThreadedMeasureOverhead(const string &text, const int nW
     int start = 0;
     int end = chunkSize;
 
-    // Counting
+    // Spawn threads doing nothing
     for (int i = 0; i < nWorkers; i++)
     {
         if (i == nWorkers - 1)
             end = text.length();
 
-        threads.push_back(thread(
-            [&chunksResult, i, &text, start, end]()
-            {
-                // No body, as this is no overhead
-            }));
+        threads.push_back(thread([&]() {}));
 
         start = end;
         end += chunkSize;
@@ -67,10 +63,10 @@ int main(int argc, char *argv[])
     int nWorkers = atoi(argv[2]);
     int nIterations = atoi(argv[3]);
 
+    // Run required steps to reach the COUNT stage
     string text = io_file::readSeq("tests/inputs/" + filename);
-
     vector<int> charsFrequency;
-    
+
     // Multi-threaded execution
     long us, averageUs = 0;
     for (int i = 0; i < nIterations; i++)

@@ -17,11 +17,14 @@ using namespace std;
 std::mutex mtx;
 std::vector<std::mutex> mutexes(256);
 
+/**
+ * Same as chars_frequency::computeMultiThreaded,
+ * but threads autonomously write the results by locking the vector
+*/
 vector<int> computeMultiThreadedLockVector(const string &text, const int nWorkers)
 {
     vector<int> result = vector<int>(256, 0);
 
-    // Static load balancing: each thread gets a chunk of the text of the same size
     vector<thread> threads;
     int chunkSize = text.length() / nWorkers;
     int start = 0;
@@ -46,18 +49,20 @@ vector<int> computeMultiThreadedLockVector(const string &text, const int nWorker
         end += chunkSize;
     }
 
-    // Merge
     for (int i = 0; i < nWorkers; i++)
         threads[i].join();
 
     return result;
 }
 
+/**
+ * Same as chars_frequency::computeMultiThreaded,
+ * but threads autonomously write the results by locking elements of the vector
+*/
 vector<int> computeMultiThreadedLockElement(const string &text, const int nWorkers)
 {
     vector<int> result = vector<int>(256, 0);
 
-    // Static load balancing: each thread gets a chunk of the text of the same size
     vector<thread> threads;
     int chunkSize = text.length() / nWorkers;
     int start = 0;
@@ -83,18 +88,20 @@ vector<int> computeMultiThreadedLockElement(const string &text, const int nWorke
         end += chunkSize;
     }
 
-    // Merge
     for (int i = 0; i < nWorkers; i++)
         threads[i].join();
 
     return result;
 }
 
+/**
+ * Same as chars_frequency::computeFastFlow,
+ * but the reduce phase is performed out of the library control
+*/
 vector<int> computeFastFlowNoReduce(const string &text, const int nWorkers)
 {
     vector<vector<int>> chunksResult(nWorkers);
 
-    // Static load balancing: each thread gets a chunk of the text of the same size
     ff::ParallelFor pf(nWorkers);
     int chunkSize = text.length() / nWorkers;
 
@@ -109,7 +116,6 @@ vector<int> computeFastFlowNoReduce(const string &text, const int nWorkers)
             chunksResult[i] = chars_frequency::computeSeq(text, start, end);
         });
 
-    // Merging
     vector<int> result = vector<int>(256, 0);
     for (int i = 0; i < nWorkers; i++)
         for (int j = 0; j < 256; j++)
@@ -118,23 +124,25 @@ vector<int> computeFastFlowNoReduce(const string &text, const int nWorkers)
     return result;
 }
 
+/**
+ * Same as chars_frequency::computeFastFlow,
+ * but using dynamic scheduling
+ */
 vector<int> computeFastFlowNoStatic(const string &text, const int nWorkers)
 {
     vector<int> result = vector<int>(256, 0);
-    
+
     ff::ParallelForReduce<vector<int>> ffForReduce(nWorkers);
     ffForReduce.parallel_reduce(
         result, vector<int>(256, 0),
         0, text.size(), 1, 0,
         [&text](const long i, vector<int> &partialResult)
         {
-            // Counting
             int pos = static_cast<unsigned char>(text[i]);
             partialResult[pos]++;
         },
         [](vector<int> &result, const vector<int> &partialResult)
         {
-            // Merging
             for (int i = 0; i < 256; i++)
                 result[i] += partialResult[i];
         },
@@ -155,8 +163,8 @@ int main(int argc, char *argv[])
     int nWorkers = atoi(argv[2]);
     int nIterations = atoi(argv[3]);
 
+    // Run required steps to reach the COUNT stage
     string text = io_file::readSeq("tests/inputs/" + filename);
-
     vector<int> charsFrequency;
 
     // Seqeuential execution

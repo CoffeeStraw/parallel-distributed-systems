@@ -1,6 +1,6 @@
 /**
  * Test the sequential version of the Huffman encoding algorithm,
- * writing the input+output average time to a csv file.
+ * writing the input+output average time for each step to a csv file.
  */
 #include <iostream>
 #include <fstream>

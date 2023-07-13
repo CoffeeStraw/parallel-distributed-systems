@@ -22,12 +22,13 @@ int main(int argc, char *argv[])
     string filename = argv[1];
     int nWorkers = atoi(argv[2]);
 
+    // Run required steps to reach the COUNT stage
     string text = io_file::readSeq("tests/inputs/" + filename);
     vector<int> charsFrequency = chars_frequency::computeMultiThreaded(text, nWorkers);
     huffman_tree::Node *root = huffman_tree::buildHuffmanTree(charsFrequency);
     vector<string> huffmanMap = huffman_tree::buildHuffmanMap(root);
 
-    // Verify that the three functions compute the same result
+    // ENCODE stage: check for consistency between the 3 versions
     string binaryString1 = huffman_encode::fromStringToBinarySeq(text, 0, text.length(), huffmanMap);
     string binaryString2 = huffman_encode::fromStringToBinaryMultiThreaded(text, huffmanMap, nWorkers);
     string binaryString3 = huffman_encode::fromStringToBinaryFastFlow(text, huffmanMap, nWorkers);
@@ -38,7 +39,7 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    // Verify that the three functions compute the same result
+    // ASCII stage: check for consistency between the 3 versions
     huffman_encode::padString(binaryString1);
     string asciiString1 = huffman_encode::fromBinaryToASCIISeq(binaryString1, 0, binaryString1.length());
     string asciiString2 = huffman_encode::fromBinaryToASCIIMultiThreaded(binaryString1, nWorkers);

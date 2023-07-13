@@ -15,10 +15,8 @@ using namespace std;
 
 string fromStringToBinaryMultiThreadedMeasureOverhead(const string &text, const vector<string> &huffmanMap, const int nWorkers, long &totalUs)
 {
-    string result = "";
-    vector<string> chunksResult(nWorkers);
-
     // Compute in advance chunksResult, as it is not overhead
+    vector<string> chunksResult(nWorkers);
     int chunkSize = text.length() / nWorkers;
     int start = 0;
     int end = chunkSize;
@@ -35,6 +33,7 @@ string fromStringToBinaryMultiThreadedMeasureOverhead(const string &text, const 
     }
 
     // Overhead computation
+    string result = "";
     long us;
 
     // Compute overhead for creating threads
@@ -52,7 +51,7 @@ string fromStringToBinaryMultiThreadedMeasureOverhead(const string &text, const 
             if (i == nWorkers - 1)
                 end = text.length();
 
-            threads.push_back(thread([]() {}));
+            threads.push_back(thread([&]() {}));
             start = end;
             end += chunkSize;
         }
@@ -77,10 +76,8 @@ string fromStringToBinaryMultiThreadedMeasureOverhead(const string &text, const 
 
 string fromBinaryToASCIIMultiThreadedMeasureOverhead(const string &text, const int nWorkers, long &totalUs)
 {
-    string result = "";
-    vector<string> chunksResult(nWorkers);
-
     // Compute in advance chunksResult, as it is not overhead
+    vector<string> chunksResult(nWorkers);
     int chunkSize = text.length() / nWorkers;
     int start = 0;
     int end = chunkSize;
@@ -97,6 +94,7 @@ string fromBinaryToASCIIMultiThreadedMeasureOverhead(const string &text, const i
     }
 
     // Overhead computation
+    string result = "";
     long us;
 
     // Compute overhead for creating threads
@@ -114,7 +112,7 @@ string fromBinaryToASCIIMultiThreadedMeasureOverhead(const string &text, const i
             if (i == nWorkers - 1)
                 end = text.length();
 
-            threads.push_back(thread([]() {}));
+            threads.push_back(thread([&]() {}));
             start = end;
             end += chunkSize;
         }
@@ -149,14 +147,14 @@ int main(int argc, char *argv[])
     int nWorkers = atoi(argv[2]);
     int nIterations = atoi(argv[3]);
 
+    // Run required steps to reach the COUNT stage
     string text = io_file::readSeq("tests/inputs/" + filename);
-
     vector<int> charsFrequency = chars_frequency::computeMultiThreaded(text, nWorkers);
     huffman_tree::Node *root = huffman_tree::buildHuffmanTree(charsFrequency);
     vector<string> huffmanMap = huffman_tree::buildHuffmanMap(root);
+    string binaryString;
 
     // Multi-threaded execution
-    string binaryString;
     long us, averageUs = 0;
     for (int i = 0; i < nIterations; i++)
     {
@@ -180,11 +178,11 @@ int main(int argc, char *argv[])
     averageUs /= nIterations;
     cout << "Average StringToBinary multi-threaded execution time (measure overhead): " << averageUs << " us" << endl;
 
-    // Pad one time only
+    // Pad the binary string one time only (not an overhead)
     huffman_encode::padString(binaryString);
+    string asciiString;
 
     // Multi-threaded execution
-    string asciiString;
     us, averageUs = 0;
     for (int i = 0; i < nIterations; i++)
     {
