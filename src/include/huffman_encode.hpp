@@ -35,11 +35,11 @@ namespace huffman_encode
 
     /**
      * @brief Computes the Huffman encoding of a string using FastFlow.
-     * 
+     *
      * @param text The string to encode.
      * @param huffmanMap The Huffman map (char->code).
      * @param nWorkers The number of workers to use.
-    */
+     */
     string fromStringToBinaryFastFlow(const string &text, const vector<string> &huffmanMap, const int nWorkers);
 
     /**
@@ -68,11 +68,11 @@ namespace huffman_encode
 
     /**
      * @brief Converts a binary string to an ASCII string using FastFlow.
-     * 
+     *
      * @param binaryString The binary string to convert.
      * @param nWorkers The number of workers to use.
      * @return An ASCII string.
-    */
+     */
     string fromBinaryToASCIIFastFlow(const string &binaryString, const int nWorkers);
 }
 

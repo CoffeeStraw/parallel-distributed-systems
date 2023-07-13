@@ -1,13 +1,3 @@
-/**
- * @file utils.cpp
- *
- * @brief Utility functions.
- *
- * Utility functions.
- *
- * @see utils.hpp
- */
-
 #include <iostream>
 #include <string>
 

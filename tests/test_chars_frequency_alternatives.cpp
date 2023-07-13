@@ -20,7 +20,7 @@ std::vector<std::mutex> mutexes(256);
 /**
  * Same as chars_frequency::computeMultiThreaded,
  * but threads autonomously write the results by locking the vector
-*/
+ */
 vector<int> computeMultiThreadedLockVector(const string &text, const int nWorkers)
 {
     vector<int> result = vector<int>(256, 0);
@@ -58,7 +58,7 @@ vector<int> computeMultiThreadedLockVector(const string &text, const int nWorker
 /**
  * Same as chars_frequency::computeMultiThreaded,
  * but threads autonomously write the results by locking elements of the vector
-*/
+ */
 vector<int> computeMultiThreadedLockElement(const string &text, const int nWorkers)
 {
     vector<int> result = vector<int>(256, 0);
@@ -97,7 +97,7 @@ vector<int> computeMultiThreadedLockElement(const string &text, const int nWorke
 /**
  * Same as chars_frequency::computeFastFlow,
  * but the reduce phase is performed out of the library control
-*/
+ */
 vector<int> computeFastFlowNoReduce(const string &text, const int nWorkers)
 {
     vector<vector<int>> chunksResult(nWorkers);

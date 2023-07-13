@@ -27,6 +27,7 @@ string huffman_encode::fromStringToBinaryMultiThreaded(const string &text, const
     int start = 0;
     int end = chunkSize;
 
+    // Encoding
     for (int i = 0; i < nWorkers; i++)
     {
         if (i == nWorkers - 1)
@@ -42,7 +43,7 @@ string huffman_encode::fromStringToBinaryMultiThreaded(const string &text, const
         end += chunkSize;
     }
 
-    // Merge
+    // Merging
     string result = "";
     for (int i = 0; i < nWorkers; i++)
     {
@@ -113,6 +114,7 @@ string huffman_encode::fromBinaryToASCIIMultiThreaded(const string &binaryString
     int start = 0;
     int end = chunkSize;
 
+    // Encoding
     for (int i = 0; i < nWorkers; i++)
     {
         if (i == nWorkers - 1)
@@ -128,6 +130,7 @@ string huffman_encode::fromBinaryToASCIIMultiThreaded(const string &binaryString
         end += chunkSize;
     }
 
+    // Merging
     string result = "";
     for (int i = 0; i < nWorkers; i++)
     {
@@ -140,10 +143,13 @@ string huffman_encode::fromBinaryToASCIIMultiThreaded(const string &binaryString
 
 string huffman_encode::fromBinaryToASCIIFastFlow(const string &binaryString, const int nWorkers)
 {
+    // We assume that the binary string has a length that is a multiple of 8
+    // Remember to call padString() before calling this function
+
     // NOTE: FastFlow does not allow to control the chunkSize in parallelForReduce,
     // which is needed since chunks must be a multiple of 8.
     // Thus, we have to use parallelFor and then merge the results manually
-    // Note that the speed of this approach is pretty much the same as the one using reduce, it has been tested in test_chars_frequency_speed.cpp
+    // Note that the speed of this approach is pretty much the same as the one using reduce, it has been tested in test_chars_frequency_alternatives.cpp
 
     vector<string> chunksResult(nWorkers);
 
@@ -152,6 +158,7 @@ string huffman_encode::fromBinaryToASCIIFastFlow(const string &binaryString, con
     int chunkSize = binaryString.length() / nWorkers;
     chunkSize -= chunkSize % 8; // Round down to the nearest multiple of 8
 
+    // Encoding
     ffFor.parallel_for_static(
         0, nWorkers, 1, 0,
         [chunkSize, nWorkers, &chunksResult, &binaryString](const long i)
@@ -163,7 +170,7 @@ string huffman_encode::fromBinaryToASCIIFastFlow(const string &binaryString, con
             chunksResult[i] = huffman_encode::fromBinaryToASCIISeq(binaryString, start, end);
         });
 
-    // Merge
+    // Merging
     string result = "";
     for (int i = 0; i < nWorkers; i++)
         result += chunksResult[i];
