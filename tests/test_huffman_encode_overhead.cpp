@@ -138,14 +138,14 @@ string fromBinaryToASCIIMultiThreadedMeasureOverhead(const string &text, const i
 int main(int argc, char *argv[])
 {
     // Read command line arguments
-    if (argc != 4)
+    if (argc != 3)
     {
-        cout << "Usage: " << argv[0] << " <filename> <nWorkers> <nIterations)" << endl;
+        cout << "Usage: " << argv[0] << " <nWorkers> <nIterations>" << endl;
         return 1;
     }
-    string filename = argv[1];
-    int nWorkers = atoi(argv[2]);
-    int nIterations = atoi(argv[3]);
+    string filename = "100MB.txt";
+    int nWorkers = atoi(argv[1]);
+    int nIterations = atoi(argv[2]);
 
     // Run required steps to reach the COUNT stage
     string text = io_file::readSeq("tests/inputs/" + filename);

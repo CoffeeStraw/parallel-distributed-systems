@@ -72,5 +72,6 @@ int main(int argc, char *argv[])
         }
     }
 
+    cout << "Benchmark results written to data/fastflow.csv" << endl;
     return 0;
 }

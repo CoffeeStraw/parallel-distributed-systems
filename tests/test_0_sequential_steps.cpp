@@ -127,5 +127,7 @@ int main(int argc, char *argv[])
         // Write results to csv file
         file << fileName << ",1," << inputAverageUs + outputAverageUs << endl;
     }
+
+    cout << "Benchmark results written to data/io.csv" << endl;
     return 0;
 }

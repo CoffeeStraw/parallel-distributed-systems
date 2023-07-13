@@ -66,6 +66,7 @@ int main(int argc, char *argv[])
         file << fileName << ",1," << averageUs << endl;
         averageUs = 0;
     }
+    cout << "Benchmark results written to data/sequential.csv" << endl;
 
     return 0;
 }

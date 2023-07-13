@@ -14,13 +14,13 @@ using namespace std;
 int main(int argc, char *argv[])
 {
     // Read command line arguments
-    if (argc != 3)
+    if (argc != 2)
     {
-        cout << "Usage: " << argv[0] << " <filename> <nWorkers>" << endl;
+        cout << "Usage: " << argv[0] << " <nWorkers>" << endl;
         return 1;
     }
-    string filename = argv[1];
-    int nWorkers = atoi(argv[2]);
+    string filename = "100MB.txt";
+    int nWorkers = atoi(argv[1]);
 
     // Run required steps to reach the COUNT stage
     string text = io_file::readSeq("tests/inputs/" + filename);
@@ -50,6 +50,8 @@ int main(int argc, char *argv[])
         cout << "ERROR: the three BinaryToASCII compute different results" << endl;
         return 1;
     }
+
+    cout << "Test passed: the three versions compute the same result" << endl;
 
     return 0;
 }

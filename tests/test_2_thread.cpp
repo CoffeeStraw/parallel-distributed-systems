@@ -72,5 +72,6 @@ int main(int argc, char *argv[])
         }
     }
 
+    cout << "Benchmark results written to data/thread.csv" << endl;
     return 0;
 }
